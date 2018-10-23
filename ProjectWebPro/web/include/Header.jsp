@@ -29,7 +29,7 @@
             padding-right: 1em;
             justify-self: end;
 
-
+        
         }
         a:Link{
             color: whitesmoke;
@@ -44,6 +44,10 @@
         }
         img{
             padding: 5px;
+        }
+        .navbar-nav{
+            color: whitesmoke;
+            text-decoration: none;
         }
         
 
@@ -67,7 +71,7 @@
     </div>
 </div>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #A8DBA8"><!--NavBar-->
-    <a class="navbar-brand" style="color : whitesmoke" href="HomePage.jsp">Exotic Animal Food</a>
+    <a class="navbar-brand" style="color : whitesmoke" href="HomePage.jsp"><h2>Exotic Animal Food</h2></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -75,7 +79,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" style="color : whitesmoke" href="HomePage.jsp">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" style="color : whitesmoke"href="HomePage.jsp">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" style="color : whitesmoke" href="#">Product</a><!--ใส่link-->
@@ -86,7 +90,7 @@
             
             
         </ul>
-        <form class="form-inline my-2 my-lg-0" action="#" method="post">
+        <form class="form-inline my-2 my-lg-0" action="Search" method="post"><!--ใส่ action-->
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>

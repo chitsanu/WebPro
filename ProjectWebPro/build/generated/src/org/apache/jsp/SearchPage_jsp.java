@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
 
-public final class HomePage_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class SearchPage_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -48,28 +48,30 @@ public final class HomePage_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<html>\n");
       out.write("    <head>\n");
       out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
-      out.write("        <title>Exotic Animal Food</title>\n");
+      out.write("        <title>Search Page</title>\n");
+      out.write("        <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\">\n");
+      out.write("    <script src=\"https://code.jquery.com/jquery-3.2.1.slim.min.js\"></script>\n");
+      out.write("    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\" ></script>\n");
+      out.write("    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js\" ></script>\n");
       out.write("    </head>\n");
-      out.write("    <style>\n");
-      out.write("        .wrapper{\n");
-      out.write("            display: grid;\n");
-      out.write("        }\n");
-      out.write("        .topic{\n");
-      out.write("            display: grid;\n");
-      out.write("            justify-content: center;\n");
-      out.write("        }\n");
-      out.write("    </style>\n");
       out.write("    <body>\n");
-      out.write("        ");
-      org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "include/Header.jsp", out, false);
-      out.write("\n");
-      out.write("        <div class=\"topic\">\n");
-      out.write("            <h1>Our Product</h1>\n");
-      out.write("\n");
+      out.write("        <h1>Store Search</h1>\n");
+      out.write("        <form class=\"form-inline my-2 my-lg-0\" action=\"Search\" method=\"post\"><!--ใส่ action-->\n");
+      out.write("            <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n");
+      out.write("            <li class=\"nav-item dropdown\">\n");
+      out.write("        <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n");
+      out.write("         Category\n");
+      out.write("        </a>\n");
+      out.write("        <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown\">\n");
+      out.write("          <a class=\"dropdown-item\" href=\"#\">Action</a>\n");
+      out.write("          <a class=\"dropdown-item\" href=\"#\">Another action</a>\n");
+      out.write("          <div class=\"dropdown-divider\"></div>\n");
+      out.write("          <a class=\"dropdown-item\" href=\"#\">Something else here</a>\n");
       out.write("        </div>\n");
-      out.write("\n");
+      out.write("      </li>\n");
+      out.write("            <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n");
+      out.write("        </form>\n");
       out.write("    </body>\n");
-      out.write("\n");
       out.write("</html>\n");
     } catch (Throwable t) {
       if (!(t instanceof SkipPageException)){

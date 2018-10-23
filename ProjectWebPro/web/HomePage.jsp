@@ -15,14 +15,18 @@
         .wrapper{
             display: grid;
         }
+        .topic{
+            display: grid;
+            justify-content: center;
+        }
     </style>
     <body>
         <jsp:include page = "include/Header.jsp"/>
-        <div class="wrapper">
-            <div>
-                
-            </div>
+        <div class="topic">
+            <h1>Our Product</h1>
+
         </div>
+
     </body>
-   
+
 </html>
