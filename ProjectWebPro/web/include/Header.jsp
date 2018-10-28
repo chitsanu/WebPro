@@ -82,7 +82,7 @@
                 <a class="nav-link" style="color : whitesmoke"href="HomePage.jsp">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" style="color : whitesmoke" href="#">Product</a><!--ใส่link-->
+                <a class="nav-link" style="color : whitesmoke" href="product">Product</a><!--ใส่link-->
             </li>
             <li class="nav-item">
                 <a class="nav-link" style="color : whitesmoke" href="#">Contact</a><!--ใส่link-->

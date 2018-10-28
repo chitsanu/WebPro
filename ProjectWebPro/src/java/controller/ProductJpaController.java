@@ -49,18 +49,18 @@ public class ProductJpaController implements Serializable {
             em = getEntityManager();
             List<Orderdetail> attachedOrderdetailList = new ArrayList<Orderdetail>();
             for (Orderdetail orderdetailListOrderdetailToAttach : product.getOrderdetailList()) {
-                orderdetailListOrderdetailToAttach = em.getReference(orderdetailListOrderdetailToAttach.getClass(), orderdetailListOrderdetailToAttach.getOrderdetailPK());
+                orderdetailListOrderdetailToAttach = em.getReference(orderdetailListOrderdetailToAttach.getClass(), orderdetailListOrderdetailToAttach.getOrdernumber());
                 attachedOrderdetailList.add(orderdetailListOrderdetailToAttach);
             }
             product.setOrderdetailList(attachedOrderdetailList);
             em.persist(product);
             for (Orderdetail orderdetailListOrderdetail : product.getOrderdetailList()) {
-                Product oldProductOfOrderdetailListOrderdetail = orderdetailListOrderdetail.getProduct();
-                orderdetailListOrderdetail.setProduct(product);
+                Product oldProductcodeOfOrderdetailListOrderdetail = orderdetailListOrderdetail.getProductcode();
+                orderdetailListOrderdetail.setProductcode(product);
                 orderdetailListOrderdetail = em.merge(orderdetailListOrderdetail);
-                if (oldProductOfOrderdetailListOrderdetail != null) {
-                    oldProductOfOrderdetailListOrderdetail.getOrderdetailList().remove(orderdetailListOrderdetail);
-                    oldProductOfOrderdetailListOrderdetail = em.merge(oldProductOfOrderdetailListOrderdetail);
+                if (oldProductcodeOfOrderdetailListOrderdetail != null) {
+                    oldProductcodeOfOrderdetailListOrderdetail.getOrderdetailList().remove(orderdetailListOrderdetail);
+                    oldProductcodeOfOrderdetailListOrderdetail = em.merge(oldProductcodeOfOrderdetailListOrderdetail);
                 }
             }
             utx.commit();
@@ -95,7 +95,7 @@ public class ProductJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Orderdetail " + orderdetailListOldOrderdetail + " since its product field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Orderdetail " + orderdetailListOldOrderdetail + " since its productcode field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -103,7 +103,7 @@ public class ProductJpaController implements Serializable {
             }
             List<Orderdetail> attachedOrderdetailListNew = new ArrayList<Orderdetail>();
             for (Orderdetail orderdetailListNewOrderdetailToAttach : orderdetailListNew) {
-                orderdetailListNewOrderdetailToAttach = em.getReference(orderdetailListNewOrderdetailToAttach.getClass(), orderdetailListNewOrderdetailToAttach.getOrderdetailPK());
+                orderdetailListNewOrderdetailToAttach = em.getReference(orderdetailListNewOrderdetailToAttach.getClass(), orderdetailListNewOrderdetailToAttach.getOrdernumber());
                 attachedOrderdetailListNew.add(orderdetailListNewOrderdetailToAttach);
             }
             orderdetailListNew = attachedOrderdetailListNew;
@@ -111,12 +111,12 @@ public class ProductJpaController implements Serializable {
             product = em.merge(product);
             for (Orderdetail orderdetailListNewOrderdetail : orderdetailListNew) {
                 if (!orderdetailListOld.contains(orderdetailListNewOrderdetail)) {
-                    Product oldProductOfOrderdetailListNewOrderdetail = orderdetailListNewOrderdetail.getProduct();
-                    orderdetailListNewOrderdetail.setProduct(product);
+                    Product oldProductcodeOfOrderdetailListNewOrderdetail = orderdetailListNewOrderdetail.getProductcode();
+                    orderdetailListNewOrderdetail.setProductcode(product);
                     orderdetailListNewOrderdetail = em.merge(orderdetailListNewOrderdetail);
-                    if (oldProductOfOrderdetailListNewOrderdetail != null && !oldProductOfOrderdetailListNewOrderdetail.equals(product)) {
-                        oldProductOfOrderdetailListNewOrderdetail.getOrderdetailList().remove(orderdetailListNewOrderdetail);
-                        oldProductOfOrderdetailListNewOrderdetail = em.merge(oldProductOfOrderdetailListNewOrderdetail);
+                    if (oldProductcodeOfOrderdetailListNewOrderdetail != null && !oldProductcodeOfOrderdetailListNewOrderdetail.equals(product)) {
+                        oldProductcodeOfOrderdetailListNewOrderdetail.getOrderdetailList().remove(orderdetailListNewOrderdetail);
+                        oldProductcodeOfOrderdetailListNewOrderdetail = em.merge(oldProductcodeOfOrderdetailListNewOrderdetail);
                     }
                 }
             }
@@ -160,7 +160,7 @@ public class ProductJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Product (" + product + ") cannot be destroyed since the Orderdetail " + orderdetailListOrphanCheckOrderdetail + " in its orderdetailList field has a non-nullable product field.");
+                illegalOrphanMessages.add("This Product (" + product + ") cannot be destroyed since the Orderdetail " + orderdetailListOrphanCheckOrderdetail + " in its orderdetailList field has a non-nullable productcode field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

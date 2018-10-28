@@ -6,15 +6,15 @@
 package model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,81 +28,75 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Orderdetail.findAll", query = "SELECT o FROM Orderdetail o")
-    , @NamedQuery(name = "Orderdetail.findByOrdernumber", query = "SELECT o FROM Orderdetail o WHERE o.orderdetailPK.ordernumber = :ordernumber")
-    , @NamedQuery(name = "Orderdetail.findByProductcode", query = "SELECT o FROM Orderdetail o WHERE o.orderdetailPK.productcode = :productcode")
-    , @NamedQuery(name = "Orderdetail.findByQuantityordered", query = "SELECT o FROM Orderdetail o WHERE o.quantityordered = :quantityordered")
-    , @NamedQuery(name = "Orderdetail.findByPriceeach", query = "SELECT o FROM Orderdetail o WHERE o.priceeach = :priceeach")})
+    , @NamedQuery(name = "Orderdetail.findByOrdernumber", query = "SELECT o FROM Orderdetail o WHERE o.ordernumber = :ordernumber")
+    , @NamedQuery(name = "Orderdetail.findByQuantity", query = "SELECT o FROM Orderdetail o WHERE o.quantity = :quantity")})
 public class Orderdetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected OrderdetailPK orderdetailPK;
+    @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "QUANTITYORDERED")
-    private int quantityordered;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "ORDERNUMBER")
+    private Integer ordernumber;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "PRICEEACH")
-    private BigDecimal priceeach;
-    @JoinColumn(name = "PRODUCTCODE", referencedColumnName = "PRODUCTCODE", insertable = false, updatable = false)
+    @Column(name = "QUANTITY")
+    private int quantity;
+    @JoinColumn(name = "ORDERNUMBER", referencedColumnName = "ORDERNUMBER", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private Orderlist orderlist;
+    @JoinColumn(name = "PRODUCTCODE", referencedColumnName = "PRODUCTCODE")
     @ManyToOne(optional = false)
-    private Product product;
+    private Product productcode;
 
     public Orderdetail() {
     }
 
-    public Orderdetail(OrderdetailPK orderdetailPK) {
-        this.orderdetailPK = orderdetailPK;
+    public Orderdetail(Integer ordernumber) {
+        this.ordernumber = ordernumber;
     }
 
-    public Orderdetail(OrderdetailPK orderdetailPK, int quantityordered, BigDecimal priceeach) {
-        this.orderdetailPK = orderdetailPK;
-        this.quantityordered = quantityordered;
-        this.priceeach = priceeach;
+    public Orderdetail(Integer ordernumber, int quantity) {
+        this.ordernumber = ordernumber;
+        this.quantity = quantity;
     }
 
-    public Orderdetail(int ordernumber, String productcode) {
-        this.orderdetailPK = new OrderdetailPK(ordernumber, productcode);
+    public Integer getOrdernumber() {
+        return ordernumber;
     }
 
-    public OrderdetailPK getOrderdetailPK() {
-        return orderdetailPK;
+    public void setOrdernumber(Integer ordernumber) {
+        this.ordernumber = ordernumber;
     }
 
-    public void setOrderdetailPK(OrderdetailPK orderdetailPK) {
-        this.orderdetailPK = orderdetailPK;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public int getQuantityordered() {
-        return quantityordered;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public void setQuantityordered(int quantityordered) {
-        this.quantityordered = quantityordered;
+    public Orderlist getOrderlist() {
+        return orderlist;
     }
 
-    public BigDecimal getPriceeach() {
-        return priceeach;
+    public void setOrderlist(Orderlist orderlist) {
+        this.orderlist = orderlist;
     }
 
-    public void setPriceeach(BigDecimal priceeach) {
-        this.priceeach = priceeach;
+    public Product getProductcode() {
+        return productcode;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductcode(Product productcode) {
+        this.productcode = productcode;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (orderdetailPK != null ? orderdetailPK.hashCode() : 0);
+        hash += (ordernumber != null ? ordernumber.hashCode() : 0);
         return hash;
     }
 
@@ -113,7 +107,7 @@ public class Orderdetail implements Serializable {
             return false;
         }
         Orderdetail other = (Orderdetail) object;
-        if ((this.orderdetailPK == null && other.orderdetailPK != null) || (this.orderdetailPK != null && !this.orderdetailPK.equals(other.orderdetailPK))) {
+        if ((this.ordernumber == null && other.ordernumber != null) || (this.ordernumber != null && !this.ordernumber.equals(other.ordernumber))) {
             return false;
         }
         return true;
@@ -121,7 +115,7 @@ public class Orderdetail implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Orderdetail[ orderdetailPK=" + orderdetailPK + " ]";
+        return "model.Orderdetail[ ordernumber=" + ordernumber + " ]";
     }
     
 }

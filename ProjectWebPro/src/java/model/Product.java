@@ -6,7 +6,6 @@
 package model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -33,42 +32,32 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
     , @NamedQuery(name = "Product.findByProductcode", query = "SELECT p FROM Product p WHERE p.productcode = :productcode")
     , @NamedQuery(name = "Product.findByProductname", query = "SELECT p FROM Product p WHERE p.productname = :productname")
-    , @NamedQuery(name = "Product.findByProductweight", query = "SELECT p FROM Product p WHERE p.productweight = :productweight")
-    , @NamedQuery(name = "Product.findByQuantityinstock", query = "SELECT p FROM Product p WHERE p.quantityinstock = :quantityinstock")
-    , @NamedQuery(name = "Product.findByBuyprice", query = "SELECT p FROM Product p WHERE p.buyprice = :buyprice")
-    , @NamedQuery(name = "Product.findByPet", query = "SELECT p FROM Product p WHERE p.pet = :pet")})
+    , @NamedQuery(name = "Product.findByProducttype", query = "SELECT p FROM Product p WHERE p.producttype = :producttype")
+    , @NamedQuery(name = "Product.findByProductprice", query = "SELECT p FROM Product p WHERE p.productprice = :productprice")})
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 15)
+    @Size(min = 1, max = 100)
     @Column(name = "PRODUCTCODE")
     private String productcode;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 70)
+    @Size(min = 1, max = 500)
     @Column(name = "PRODUCTNAME")
     private String productname;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "PRODUCTWEIGHT")
-    private String productweight;
+    @Size(min = 1, max = 500)
+    @Column(name = "PRODUCTTYPE")
+    private String producttype;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "QUANTITYINSTOCK")
-    private short quantityinstock;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "BUYPRICE")
-    private BigDecimal buyprice;
-    @Size(max = 30)
-    @Column(name = "PET")
-    private String pet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @Column(name = "PRODUCTPRICE")
+    private int productprice;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productcode")
     private List<Orderdetail> orderdetailList;
 
     public Product() {
@@ -78,12 +67,11 @@ public class Product implements Serializable {
         this.productcode = productcode;
     }
 
-    public Product(String productcode, String productname, String productweight, short quantityinstock, BigDecimal buyprice) {
+    public Product(String productcode, String productname, String producttype, int productprice) {
         this.productcode = productcode;
         this.productname = productname;
-        this.productweight = productweight;
-        this.quantityinstock = quantityinstock;
-        this.buyprice = buyprice;
+        this.producttype = producttype;
+        this.productprice = productprice;
     }
 
     public String getProductcode() {
@@ -102,36 +90,20 @@ public class Product implements Serializable {
         this.productname = productname;
     }
 
-    public String getProductweight() {
-        return productweight;
+    public String getProducttype() {
+        return producttype;
     }
 
-    public void setProductweight(String productweight) {
-        this.productweight = productweight;
+    public void setProducttype(String producttype) {
+        this.producttype = producttype;
     }
 
-    public short getQuantityinstock() {
-        return quantityinstock;
+    public int getProductprice() {
+        return productprice;
     }
 
-    public void setQuantityinstock(short quantityinstock) {
-        this.quantityinstock = quantityinstock;
-    }
-
-    public BigDecimal getBuyprice() {
-        return buyprice;
-    }
-
-    public void setBuyprice(BigDecimal buyprice) {
-        this.buyprice = buyprice;
-    }
-
-    public String getPet() {
-        return pet;
-    }
-
-    public void setPet(String pet) {
-        this.pet = pet;
+    public void setProductprice(int productprice) {
+        this.productprice = productprice;
     }
 
     @XmlTransient
