@@ -1,6 +1,6 @@
 <%-- 
-    Document   : product
-    Created on : Oct 28, 2018, 9:07:49 PM
+    Document   : Cart
+    Created on : Nov 13, 2018, 10:19:28 PM
     Author     : James
 --%>
 
@@ -10,12 +10,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Product Page</title>
+        <title>Cart</title>
         <style>
             .Wrapper{
                 display:grid;
                 grid-template-columns: 50% 50% ;
-                grid-template-rows:90% 10% ;
                 grid-gap: 1em;
                 margin-left: 1em;
                 margin-right: 1em;
@@ -29,7 +28,7 @@
             .showProduct{
                 display:grid;
                 grid-gap: 1em;
-                grid-template-columns: 50% 50%;
+                grid-template-columns: 50%;
                 border-style : solid;
                 border-radius: 5px;
                 border-color: #A8DBA8;  
@@ -38,42 +37,48 @@
                 display:grid ;
                 padding-top: 2em; 
                 justify-content: flex-start;
-                 align-content: center;
+                align-content: center;
             }
             .productimage{
-                 display:grid ;
-                 align-content: center;
+                display:grid ;
+                align-content: center;
+            }
+            #total{
+                
             }
         </style>
     </head>
-    <body>
+    <body> 
         <jsp:include page = "include/Header.jsp"/>
+        <h1>Your Cart</h1>
 
-        <h1>Product Page</h1>
         <div class="Wrapper">
-
-            <c:forEach items="${products}" var="p">
+            <c:set var="items" value="${sessionScope.cart.itemsInCart}"/>
+            <c:forEach items="${cart.itemsInCart}" var="i">
                 <div class="showProduct">
 
-                    <div class="productimage">
-
-                        <img src="Pic/${p.productcode}.jpeg" width="70%"><br>
-
-                    </div>
                     <div class="product">
 
-                        <p>${p.productname}</p> <br>
-                        <p>Price: ${p.productprice} Baht</p><br>
-                        <a href="AddItems?productCode=${p.productcode}">
-                            <input type="button" class="btn btn-outline-success" value="Add to cart"/>
+                        <p>${i.product.productcode}</p> <br>
+                        <p>${i.product.productname}</p> <br>
+                        
+                        <p>Quantity : ${i.quantity}</p><br>
+                        <p>${i.totalPrice} Baht</p>
+                         <a href="RemoveItems?productCode=${i.product.productcode}">
+                            <input type="button" class="btn btn-outline-danger" value="Remove"/>
                         </a>
 
                     </div>
 
                 </div>   
             </c:forEach>
-
+            <div id="total">
+            Total Quantity : ${cart.totalQuantity}<br>
+            Total Price ${cart.totalPrice} Baht<br>
+            <a href="#">
+            <input type="button"class="btn btn-outline-success" value= "Check Out"/>
+            </a>
+            </div>
         </div>
-
     </body>
 </html>

@@ -63,12 +63,13 @@ public final class product_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <style>\n");
       out.write("            .Wrapper{\n");
       out.write("                display:grid;\n");
-      out.write("\n");
+      out.write("                grid-template-columns: 25% 25% 25% 25%;\n");
+      out.write("                grid-gap: 1em;\n");
+      out.write("                padding: 5em;\n");
       out.write("            }\n");
-      out.write("            .Wrapper > div{\n");
-      out.write("                display:grid;\n");
-      out.write("                grid-template-columns: 25% 25% 25% 25% ;\n");
-      out.write("\n");
+      out.write("            h1{\n");
+      out.write("                padding :1em;\n");
+      out.write("                text-align: center;\n");
       out.write("            }\n");
       out.write("        </style>\n");
       out.write("    </head>\n");
@@ -76,6 +77,8 @@ public final class product_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "include/Header.jsp", out, false);
       out.write("\n");
+      out.write("\n");
+      out.write("        <h1>Product Page</h1>\n");
       out.write("        <div class=\"Wrapper\">\n");
       out.write("            ");
       if (_jspx_meth_c_forEach_0(_jspx_page_context))
@@ -115,20 +118,26 @@ public final class product_jsp extends org.apache.jasper.runtime.HttpJspBase
       if (_jspx_eval_c_forEach_0 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
         do {
           out.write("\n");
-          out.write("                <div>\n");
           out.write("\n");
+          out.write("                <div class=\"productimage\">\n");
           out.write("                    <img src=\"Pic/");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${p.productcode}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-          out.write(".jpeg\" width=\"50%\"><br>\n");
+          out.write(".jpeg\" width=\"70%\"><br>\n");
+          out.write("                </div>\n");
+          out.write("                <div class=\"product\">\n");
           out.write("                    <p>");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${p.productname}", java.lang.String.class, (PageContext)_jspx_page_context, null));
           out.write("</p> <br>\n");
-          out.write("                    <p>");
+          out.write("                    <p>Price: ");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${p.productprice}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-          out.write("</p><br>\n");
-          out.write("                    <form action=\"addItemstoCart\" method=\"post\">\n");
-          out.write("                        <input type=\"submit\" value=\"Add To cart\"/>\n");
-          out.write("                    </form>\n");
+          out.write(" Baht</p><br>\n");
+          out.write("\n");
+          out.write("                    <a href=\"AddItems?productcode=");
+          out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${p.productcode}", java.lang.String.class, (PageContext)_jspx_page_context, null));
+          out.write("\">\n");
+          out.write("                        <button type=\"button\" class=\"btn btn-outline-success\">Add to cart </button>\n");
+          out.write("                    </a>\n");
+          out.write("                    \n");
           out.write("                </div>\n");
           out.write("            ");
           int evalDoAfterBody = _jspx_th_c_forEach_0.doAfterBody();

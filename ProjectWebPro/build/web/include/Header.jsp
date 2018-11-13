@@ -11,6 +11,8 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <style>
         .wrapper{
             display:grid;
@@ -27,9 +29,10 @@
         .navHead{
             padding-top: 1em;
             padding-right: 1em;
-            justify-self: end;
+            padding-left: 2em;
+            justify-self : end;
 
-        
+
         }
         a:Link{
             color: whitesmoke;
@@ -49,7 +52,7 @@
             color: whitesmoke;
             text-decoration: none;
         }
-        
+
 
     </style>
 </header>
@@ -60,14 +63,17 @@
     <div class="navHead">
         <a href="#">Sign up</a>
         <c:choose>
-            <c:when test="${sessionScope.user!= null}"><!--แก้ตรงuser-->
+            <c:when test="${sessionScope.user != null}"><!--แก้ตรงuser-->
                 <a href="logout">${sessionScope.accountname}</a> <!--แก้ชื่อColumn-->
             </c:when>
             <c:otherwise>
                 <a href="login">Sign in</a>
             </c:otherwise>
         </c:choose>
-        <a href="#">Shopping Cart</a>
+
+        <a href="ShowCart" id="cart"><i class="material-icons">shopping_cart</i> Cart <!--cart-->
+                <span class="badge badge-pill badge-danger">${cart.totalQuantity}</span></a>
+        
     </div>
 </div>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #A8DBA8"><!--NavBar-->
@@ -87,8 +93,8 @@
             <li class="nav-item">
                 <a class="nav-link" style="color : whitesmoke" href="#">Contact</a><!--ใส่link-->
             </li>
-            
-            
+
+
         </ul>
         <form class="form-inline my-2 my-lg-0" action="Search" method="post"><!--ใส่ action-->
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
