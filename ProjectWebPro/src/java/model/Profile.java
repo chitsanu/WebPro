@@ -20,10 +20,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import model.Account;
 
 /**
  *
- * @author James
+ * @author SSirith
  */
 @Entity
 @Table(name = "PROFILE")
@@ -82,6 +83,23 @@ public class Profile implements Serializable {
         this.tel = tel;
     }
 
+    public Profile(String fname, String lname, String address, String tel, Account accountid) {
+        this.fname = fname;
+        this.lname = lname;
+        this.address = address;
+        this.tel = tel;
+        this.accountid = accountid;
+    }
+
+    public Profile(String fname, String lname, String address, String tel) {
+        this.fname = fname;
+        this.lname = lname;
+        this.address = address;
+        this.tel = tel;
+    }
+
+    
+    
     public Integer getProfileid() {
         return profileid;
     }
@@ -150,9 +168,15 @@ public class Profile implements Serializable {
         return true;
     }
 
+    
+//    @Override
+//    public String toString() {
+//        return "project.model.Profile[ profileid=" + profileid + " ]";
+//    }
+
     @Override
     public String toString() {
-        return "model.Profile[ profileid=" + profileid + " ]";
+        return "Profile{" + "profileid=" + profileid + ", fname=" + fname + ", lname=" + lname + ", address=" + address + ", tel=" + tel + ", accountid=" + accountid + '}';
     }
     
 }

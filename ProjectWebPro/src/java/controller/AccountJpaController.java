@@ -3,11 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package model.controller;
 
-import controller.exceptions.IllegalOrphanException;
-import controller.exceptions.NonexistentEntityException;
-import controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -22,10 +19,13 @@ import javax.transaction.UserTransaction;
 import model.Account;
 import model.Orderlist;
 import model.Card;
+import model.controller.exceptions.IllegalOrphanException;
+import model.controller.exceptions.NonexistentEntityException;
+import model.controller.exceptions.RollbackFailureException;
 
 /**
  *
- * @author James
+ * @author SSirith
  */
 public class AccountJpaController implements Serializable {
 
@@ -313,6 +313,16 @@ public class AccountJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.find(Account.class, id);
+        } finally {
+            em.close();
+        }
+    }
+    public Account findAccountEmail(String email) {
+        EntityManager em = getEntityManager();
+        Query q = em.createNamedQuery("Account.findByEmail");
+        q.setParameter("email",email);
+        try {
+            return (Account) q.getSingleResult();
         } finally {
             em.close();
         }

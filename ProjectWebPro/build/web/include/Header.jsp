@@ -61,13 +61,13 @@
         <a href="HomePage.jsp"><img src="Pic/LOGO.png" width="100px" hight="50px"></a>
     </div>     
     <div class="navHead">
-        <a href="#">Sign up</a>
+        <a href="Register">Sign up</a>
         <c:choose>
-            <c:when test="${sessionScope.user != null}"><!--แก้ตรงuser-->
-                <a href="logout">${sessionScope.accountname}</a> <!--แก้ชื่อColumn-->
+            <c:when test="${sessionScope.account != null}"><!--แก้ตรงuser-->
+                <a href="Logout">${sessionScope.account.email}</a> <!--แก้ชื่อColumn-->
             </c:when>
             <c:otherwise>
-                <a href="login">Sign in</a>
+                <a href="Login">Sign in</a>
             </c:otherwise>
         </c:choose>
 

@@ -25,10 +25,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import model.Card;
+import model.Orderlist;
 
 /**
  *
- * @author James
+ * @author SSirith
  */
 @Entity
 @Table(name = "ACCOUNT")
@@ -87,6 +89,14 @@ public class Account implements Serializable {
         this.password = password;
         this.activatecode = activatecode;
     }
+
+    public Account(String email, String password, String activatecode) {
+        this.email = email;
+        this.password = password;
+        this.activatecode = activatecode;
+    }
+
+    
 
     public String getEmail() {
         return email;
@@ -177,7 +187,7 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Account[ accountid=" + accountid + " ]";
+        return "project.model.Account[ accountid=" + accountid + " ]";
     }
     
 }

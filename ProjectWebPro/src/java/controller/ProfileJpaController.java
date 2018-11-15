@@ -5,8 +5,6 @@
  */
 package controller;
 
-import controller.exceptions.NonexistentEntityException;
-import controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -18,10 +16,12 @@ import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 import model.Account;
 import model.Profile;
+import model.controller.exceptions.NonexistentEntityException;
+import model.controller.exceptions.RollbackFailureException;
 
 /**
  *
- * @author James
+ * @author SSirith
  */
 public class ProfileJpaController implements Serializable {
 

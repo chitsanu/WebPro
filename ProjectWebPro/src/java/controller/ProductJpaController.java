@@ -5,10 +5,10 @@
  */
 package controller;
 
-import controller.exceptions.IllegalOrphanException;
-import controller.exceptions.NonexistentEntityException;
-import controller.exceptions.PreexistingEntityException;
-import controller.exceptions.RollbackFailureException;
+import model.controller.exceptions.IllegalOrphanException;
+import model.controller.exceptions.NonexistentEntityException;
+import model.controller.exceptions.PreexistingEntityException;
+import model.controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
