@@ -17,7 +17,7 @@ import java.util.Map;
  *
  * @author James
  */
-public class Cart implements Serializable  {
+public class Cart implements Serializable {
 
     private Map<String, ItemsInCart> cart;
 
@@ -30,27 +30,36 @@ public class Cart implements Serializable  {
         if (items == null) {
             cart.put(p.getProductcode(), new ItemsInCart(p));
         } else {
-            items.setQuantity(items.getQuantity()+ 1);
+            items.setQuantity(items.getQuantity() + 1);
         }
     }
 
     public void remove(Product p) {
-        this.remove(p.getProductcode());
+    ItemsInCart items = cart.get(p.getProductcode());
+    items.setQuantity(items.getQuantity() - 1);
+        if (items.getQuantity() == 0) {
+            this.remove(p.getProductcode());
+        }
+        
+        
     }
 
     public void remove(String productCode) {
+        
         cart.remove(productCode);
+
     }
 
     public int getTotalPrice() {
-        int sum = 0 ;
+        int sum = 0;
         Collection<ItemsInCart> itemInCarts = cart.values();
         for (ItemsInCart itemInCart : itemInCarts) {
-            sum = itemInCart.getTotalPrice()+itemInCart.getTotalPrice();
+            sum += itemInCart.getTotalPrice();
         }
         return sum;
     }
-     public int getTotalQuantity() {
+
+    public int getTotalQuantity() {
         int sum = 0;
         Collection<ItemsInCart> itemInCarts = cart.values();
         for (ItemsInCart itemInCart : itemInCarts) {
@@ -58,8 +67,8 @@ public class Cart implements Serializable  {
         }
         return sum;
     }
-    
+
     public List<ItemsInCart> getitemsInCart() {
-        return new ArrayList(cart.values()) ;
+        return new ArrayList(cart.values());
     }
 }

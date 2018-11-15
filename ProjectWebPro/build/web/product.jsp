@@ -14,8 +14,8 @@
         <style>
             .Wrapper{
                 display:grid;
-                grid-template-columns: 50% 50% ;
-                grid-template-rows:90% 10% ;
+                grid-template-columns: 20% 60% 20%;
+                
                 grid-gap: 1em;
                 margin-left: 1em;
                 margin-right: 1em;
@@ -26,14 +26,13 @@
                 padding :1em;
                 text-align: center;
             }
-            .showProduct{
+            .show{
                 display:grid;
-                grid-gap: 1em;
-                grid-template-columns: 50% 50%;
-                border-style : solid;
-                border-radius: 5px;
-                border-color: #A8DBA8;  
+                grid-template-columns: 25% 25% 25% 25%;
+                
+                padding: 1em;
             }
+           
             .product{
                 display:grid ;
                 padding-top: 2em; 
@@ -51,7 +50,10 @@
 
         <h1>Product Page</h1>
         <div class="Wrapper">
-
+            <div>
+                
+            </div>
+            <div class="show">
             <c:forEach items="${products}" var="p">
                 <div class="showProduct">
 
@@ -72,7 +74,10 @@
 
                 </div>   
             </c:forEach>
-
+            </div>
+            <div>
+                
+            </div>
         </div>
 
     </body>
