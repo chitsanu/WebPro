@@ -45,6 +45,7 @@
     </style>
     <body>
         <jsp:include page = "include/Header.jsp"/>
+        <jsp:include page = "include/Navi.jsp"/>
         <div class="topic">
             <h1>We have Foods For your Furry Friend.</h1>
 

@@ -50,6 +50,7 @@
     </head>
     <body> 
         <jsp:include page = "include/Header.jsp"/>
+        <jsp:include page = "include/Navi.jsp"/>
         <h1>Your Cart</h1>
 
         <div class="Wrapper">
