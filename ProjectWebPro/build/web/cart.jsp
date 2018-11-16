@@ -75,9 +75,14 @@
             <div id="total">
             Total Quantity : ${cart.totalQuantity}<br>
             Total Price ${cart.totalPrice} Baht<br>
-            <a href="#">
-            <input type="button"class="btn btn-outline-success" value= "Check Out"/>
+            <a href="Checkout">
+            <button onclick="noti()"type="button" class="btn btn-primary">Check Out</button>
             </a>
+            <script>
+              function noti(){
+              alert("Check out Complete");
+              }  
+            </script>
             </div>
         </div>
     </body>

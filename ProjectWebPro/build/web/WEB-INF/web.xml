@@ -20,7 +20,7 @@
         <servlet-name>RemoveItemsServlet</servlet-name>
         <servlet-class>servlet.RemoveItemsServlet</servlet-class>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>servlet.LogoutServlet</servlet-class>
     </servlet>
@@ -35,6 +35,10 @@
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>servlet.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-class>servlet.CheckoutServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>
@@ -64,13 +68,17 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/Register</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <url-pattern>/Checkout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
