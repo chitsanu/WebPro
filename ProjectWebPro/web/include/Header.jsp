@@ -12,13 +12,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+          rel="stylesheet">
     <style>
         .wrapper{
             display:grid;
-            grid-template-columns: 30% 70%;
-            justify-items:stretch;
-            align-items: stretch;
+            grid-template-columns: 40% 60%;
             background: #79BD9A;
         }
 
@@ -48,9 +46,16 @@
         img{
             padding: 5px;
         }
+        .btn{
+            color: whitesmoke;
+        }
         .navbar-nav{
             color: whitesmoke;
             text-decoration: none;
+        }
+        .dropdown{
+            
+            color:#CFF09E;
         }
 
 
@@ -72,8 +77,8 @@
         </c:choose>
 
         <a href="ShowCart" id="cart"><i class="material-icons">shopping_cart</i> Cart <!--cart-->
-                <span class="badge badge-pill badge-danger">${cart.totalQuantity}</span></a>
-        
+            <span class="badge badge-pill badge-danger">${cart.totalQuantity}</span></a>
+
     </div>
 </div>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #A8DBA8"><!--NavBar-->
@@ -93,12 +98,24 @@
             <li class="nav-item">
                 <a class="nav-link" style="color : whitesmoke" href="#">Contact</a><!--ใส่link-->
             </li>
-
+            
+            <div class="dropdown"> 
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Profile
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#" style="color : #79BD9A">Edit</a>
+                    <a class="dropdown-item" href="#" style="color : #79BD9A">History</a>
+                    
+                </div>
+            </div>
 
         </ul>
+
         <form class="form-inline my-2 my-lg-0" action="Search" method="post"><!--ใส่ action-->
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
+
 </nav>
