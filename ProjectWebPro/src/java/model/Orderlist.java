@@ -58,6 +58,12 @@ public class Orderlist implements Serializable {
     public Orderlist() {
     }
 
+    public Orderlist(Date orderdate, Account accountid) {
+        this.orderdate = orderdate;
+        this.accountid = accountid;
+    }
+
+    
     public Orderlist(Integer ordernumber) {
         this.ordernumber = ordernumber;
     }
