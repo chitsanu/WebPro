@@ -86,6 +86,7 @@ public final class HomePage_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "include/Header.jsp", out, false);
       out.write("\r\n");
+      out.write("        \r\n");
       out.write("        <div class=\"topic\">\r\n");
       out.write("            <h1>We have Foods For your Furry Friend.</h1>\r\n");
       out.write("\r\n");

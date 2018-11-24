@@ -61,7 +61,8 @@ public class CheckoutServlet extends HttpServlet {
             olCtrl.create(ol);////////////////////////////////
             odCtrl.create((Orderdetail) cart.getitemsInCart()); /////////////////////////////////////
             session.removeAttribute("cart");
-            response.sendRedirect("HomePage.jsp");
+            //response.sendRedirect("HomePage.jsp");
+            getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
         }
     }
 
