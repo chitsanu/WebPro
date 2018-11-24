@@ -57,9 +57,13 @@ public class CheckoutServlet extends HttpServlet {
         OrderdetailJpaController odCtrl = new OrderdetailJpaController(utx, emf);////////////////////////
         Account acc = (Account) session.getAttribute("account");/////////////////////////////
         if (session != null) {
-            Orderlist ol = new Orderlist(new Date(), acCtrl.findAccount(acc.getAccountid()));///////////////////////////////////////
+            Orderlist ol = new Orderlist();
+            ol.setOrderdate(new Date());
+            ol.setAccountid(acCtrl.findAccount(acc.getAccountid()));
+            System.out.println("======================================");
+            System.out.println(ol.toString());
             olCtrl.create(ol);////////////////////////////////
-            odCtrl.create((Orderdetail) cart.getitemsInCart()); /////////////////////////////////////
+//            odCtrl.create((Orderdetail) cart.getitemsInCart()); /////////////////////////////////////
             session.removeAttribute("cart");
             response.sendRedirect("HomePage.jsp");
         }
