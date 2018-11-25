@@ -32,15 +32,21 @@
                 
                 padding: 1em;
             }
-           
+            .productbd{
+                display:grid;
+                padding : 1em;
+            }
             .product{
                 display:grid ;
                 padding-top: 2em; 
+                margin-top : 1em;
                 justify-content: flex-start;
                  align-content: center;
             }
             .productimage{
                  display:grid ;
+                 height: 500px;
+                 width:600px;
                  align-content: center;
             }
         </style>
@@ -55,6 +61,7 @@
             </div>
             <div class="show">
             <c:forEach items="${products}" var="p">
+                <div class="productbd">
                 <div class="showProduct">
 
                     <div class="productimage">
@@ -62,6 +69,7 @@
                         <img src="Pic/${p.productcode}.jpeg" width="70%"><br>
 
                     </div>
+                
                     <div class="product">
 
                         <p>${p.productname}</p> <br>
@@ -73,6 +81,7 @@
                     </div>
 
                 </div>   
+                </div>
             </c:forEach>
             </div>
             <div>
