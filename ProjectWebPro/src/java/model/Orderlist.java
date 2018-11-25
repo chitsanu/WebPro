@@ -125,9 +125,15 @@ public class Orderlist implements Serializable {
         return true;
     }
 
+    
+//    @Override
+//    public String toString() {
+//        return "model.Orderlist[ ordernumber=" + ordernumber + " ]";
+//    }
+
     @Override
     public String toString() {
-        return "model.Orderlist[ ordernumber=" + ordernumber + " ]";
+        return "Orderlist{" + "orderdate=" + orderdate + ", ordernumber=" + ordernumber + ", accountid=" + accountid + ", orderdetail=" + orderdetail + '}';
     }
     
 }

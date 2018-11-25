@@ -47,7 +47,11 @@ public class RegisterServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
+<<<<<<< HEAD
         //HttpSession session = request.getSession(true);
+=======
+        
+>>>>>>> master
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String fname = request.getParameter("fname");
