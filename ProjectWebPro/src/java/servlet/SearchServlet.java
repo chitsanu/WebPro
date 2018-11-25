@@ -5,18 +5,32 @@
  */
 package servlet;
 
+import controller.ProductJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.transaction.UserTransaction;
+import model.Product;
 
 /**
  *
  * @author James
  */
 public class SearchServlet extends HttpServlet {
+
+    @PersistenceUnit(unitName = "ProjectPU")
+    EntityManagerFactory emf;
+    @Resource
+    UserTransaction utx;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,8 +43,12 @@ public class SearchServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-       getServletContext().getRequestDispatcher("/SearchPage.jsp").forward(request, response);
+        HttpSession session = request.getSession(true);
+        ProductJpaController prodCtrl = new ProductJpaController(utx, emf);
+        String search = request.getParameter("search");
+        List <Product> result = prodCtrl.findByProductname(search);
+        session.setAttribute("products", result);
+        getServletContext().getRequestDispatcher("/product.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

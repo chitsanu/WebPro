@@ -9,7 +9,7 @@ import model.Card;
 import model.Orderlist;
 import model.Profile;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-23T12:19:40")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-25T14:40:47")
 @StaticMetamodel(Account.class)
 public class Account_ { 
 
