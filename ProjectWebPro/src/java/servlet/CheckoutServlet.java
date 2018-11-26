@@ -7,9 +7,12 @@ package servlet;
 
 import controller.OrderdetailJpaController;
 import controller.OrderlistJpaController;
+import controller.ProductJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -24,6 +27,7 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import model.Account;
 import model.Cart;
+import model.ItemsInCart;
 import model.Orderdetail;
 import model.Orderlist;
 import model.controller.AccountJpaController;
@@ -53,20 +57,44 @@ public class CheckoutServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         Cart cart = (Cart) session.getAttribute("cart");///////////////////////////////////
         AccountJpaController acCtrl = new AccountJpaController(utx, emf);/////////////////////////
+        ProductJpaController prodCtrl = new ProductJpaController(utx, emf);
         OrderlistJpaController olCtrl = new OrderlistJpaController(utx, emf);/////////////////////
         OrderdetailJpaController odCtrl = new OrderdetailJpaController(utx, emf);////////////////////////
         Account acc = (Account) session.getAttribute("account");/////////////////////////////
         if (session != null) {
+            Orderdetail od = new Orderdetail();
             Orderlist ol = new Orderlist();
             ol.setOrderdate(new Date());
             ol.setAccountid(acCtrl.findAccount(acc.getAccountid()));
             System.out.println("======================================");
             System.out.println(ol.toString());
+            System.out.println("======================================");
             olCtrl.create(ol);////////////////////////////////
-//            odCtrl.create((Orderdetail) cart.getitemsInCart()); /////////////////////////////////////
+            List<ItemsInCart> items = cart.getitemsInCart();
+            for (ItemsInCart itemsInCart : items) {
+                od.setOrdernumber(ol.getOrdernumber());
+                od.setProductcode(itemsInCart.getProduct());
+                od.setQuantity(itemsInCart.getQuantity());
+                od.setOrderlist(ol);
+                System.out.println("==============================================");
+                System.out.println(od.toString());
+                System.out.println("==============================================");
+                odCtrl.create(od);
+            }
+            List<Orderlist> olFromDB = olCtrl.findOrderlistEntities();
+            List<Orderlist> olList = new ArrayList<>();
+            for (Orderlist orderlist : olFromDB) {
+                if (orderlist.getAccountid() instanceof Account) {
+                    olList.add(orderlist);
+                    
+                }
+            }
+            
+            acc.setOrderlistList(olList);
+            session.setAttribute("account", acc);
             session.removeAttribute("cart");
-            //response.sendRedirect("HomePage.jsp");
-            getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
+            response.sendRedirect("HomePage.jsp");
+
         }
     }
 

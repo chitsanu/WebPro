@@ -113,9 +113,15 @@ public class Orderdetail implements Serializable {
         return true;
     }
 
+    
+//    @Override
+//    public String toString() {
+//        return "model.Orderdetail[ ordernumber=" + ordernumber + " ]";
+//    }
+
     @Override
     public String toString() {
-        return "model.Orderdetail[ ordernumber=" + ordernumber + " ]";
+        return "Orderdetail{" + "ordernumber=" + ordernumber + ", quantity=" + quantity + ", orderlist=" + orderlist + ", productcode=" + productcode + '}';
     }
     
 }
