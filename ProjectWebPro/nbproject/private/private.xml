@@ -3,13 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/src/java/servlet/CheckoutServlet.java</file>
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/src/java/model/ItemsInCart.java</file>
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/web/product.jsp</file>
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/src/java/model/Orderlist.java</file>
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/src/java/model/Orderdetail.java</file>
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/src/java/model/Account.java</file>
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/src/java/controller/ProductJpaController.java</file>
+            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/web/EditProfile.jsp</file>
+            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/src/java/servlet/EditProfileServlet.java</file>
+            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/src/java/servlet/LoginServlet.java</file>
         </group>
     </open-files>
 </project-private>

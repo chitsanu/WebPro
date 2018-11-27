@@ -32,6 +32,7 @@ import model.Account;
 @NamedQueries({
     @NamedQuery(name = "Profile.findAll", query = "SELECT p FROM Profile p")
     , @NamedQuery(name = "Profile.findByProfileid", query = "SELECT p FROM Profile p WHERE p.profileid = :profileid")
+    , @NamedQuery(name = "Profile.findByAccountid", query = "SELECT p FROM Profile p WHERE p.accountid = :accountid")
     , @NamedQuery(name = "Profile.findByFname", query = "SELECT p FROM Profile p WHERE p.fname = :fname")
     , @NamedQuery(name = "Profile.findByLname", query = "SELECT p FROM Profile p WHERE p.lname = :lname")
     , @NamedQuery(name = "Profile.findByAddress", query = "SELECT p FROM Profile p WHERE p.address = :address")
