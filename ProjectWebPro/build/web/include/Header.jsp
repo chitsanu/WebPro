@@ -105,7 +105,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="EditProfile.jsp" style="color : #79BD9A">Edit</a>
-                    <a class="dropdown-item" href="#" style="color : #79BD9A">History</a>
+                    <a class="dropdown-item" href="History.jsp" style="color : #79BD9A">History</a>
                     
                 </div>
             </div>

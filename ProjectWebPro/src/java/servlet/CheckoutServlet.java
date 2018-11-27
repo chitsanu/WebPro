@@ -56,16 +56,16 @@ public class CheckoutServlet extends HttpServlet {
             throws ServletException, IOException, Exception {
         HttpSession session = request.getSession(false);
         Cart cart = (Cart) session.getAttribute("cart");///////////////////////////////////
-        AccountJpaController acCtrl = new AccountJpaController(utx, emf);/////////////////////////
+        AccountJpaController accounttrl = new AccountJpaController(utx, emf);/////////////////////////
         ProductJpaController prodCtrl = new ProductJpaController(utx, emf);
         OrderlistJpaController olCtrl = new OrderlistJpaController(utx, emf);/////////////////////
         OrderdetailJpaController odCtrl = new OrderdetailJpaController(utx, emf);////////////////////////
-        Account acc = (Account) session.getAttribute("account");/////////////////////////////
+        Account account = (Account) session.getAttribute("account");/////////////////////////////
         if (session != null) {
             Orderdetail od = new Orderdetail();
             Orderlist ol = new Orderlist();
             ol.setOrderdate(new Date());
-            ol.setAccountid(acCtrl.findAccount(acc.getAccountid()));
+            ol.setAccountid(accounttrl.findAccount(account.getAccountid()));
             System.out.println("======================================");
             System.out.println(ol.toString());
             System.out.println("======================================");
@@ -84,14 +84,14 @@ public class CheckoutServlet extends HttpServlet {
             List<Orderlist> olFromDB = olCtrl.findOrderlistEntities();
             List<Orderlist> olList = new ArrayList<>();
             for (Orderlist orderlist : olFromDB) {
-                if (orderlist.getAccountid() instanceof Account) {
+                if (orderlist.getAccountid()instanceof Account) {
                     olList.add(orderlist);
                     
                 }
             }
             
-            acc.setOrderlistList(olList);
-            session.setAttribute("account", acc);
+            account.setOrderlistList(olList);
+            session.setAttribute("account", account);
             session.removeAttribute("cart");
             response.sendRedirect("HomePage.jsp");
 
