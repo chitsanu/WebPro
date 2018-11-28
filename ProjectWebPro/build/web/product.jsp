@@ -15,7 +15,7 @@
             .Wrapper{
                 display:grid;
                 grid-template-columns: 20% 60% 20%;
-                
+
                 grid-gap: 1em;
                 margin-left: 1em;
                 margin-right: 1em;
@@ -29,25 +29,31 @@
             .show{
                 display:grid;
                 grid-template-columns: 25% 25% 25% 25%;
-                
+
                 padding: 1em;
             }
             .productbd{
                 display:grid;
+
                 padding : 1em;
             }
             .product{
                 display:grid ;
-                padding-top: 2em; 
-                margin-top : 1em;
+                padding: 2em; 
+              
                 justify-content: flex-start;
-                 align-content: center;
+                align-content: center;
             }
             .productimage{
-                 display:grid ;
-                 height: 500px;
-                 width:600px;
-                 align-content: center;
+                display:grid ;
+                
+                align-self: center;
+                align-content: center;
+            }
+            .button{
+                padding: 1em;
+                display: grid;
+                align-content: center;
             }
         </style>
     </head>
@@ -57,35 +63,37 @@
         <h1>Product Page</h1>
         <div class="Wrapper">
             <div>
-                
+
             </div>
             <div class="show">
-            <c:forEach items="${products}" var="p">
-                <div class="productbd">
-                <div class="showProduct">
+                <c:forEach items="${products}" var="p">
+                    <div class="productbd">
+                        <div class="showProduct">
 
-                    <div class="productimage">
+                            <div class="productimage">
 
-                        <img src="Pic/${p.productcode}.jpeg" width="70%"><br>
+                                <img src="Pic/${p.productcode}.jpeg" width="70%"><br>
 
+                            </div>
+
+                            <div class="product">
+
+                                <p>${p.productname}</p> <br>
+                                <p>Price: ${p.productprice} Baht</p><br>
+
+
+                            </div>
+                            <div class="button">
+                                <a href="AddItems?productCode=${p.productcode}">
+                                    <input type="button" class="btn btn-outline-success" value="Add to cart"/>
+                                </a>
+                            </div>
+                        </div>   
                     </div>
-                
-                    <div class="product">
-
-                        <p>${p.productname}</p> <br>
-                        <p>Price: ${p.productprice} Baht</p><br>
-                        <a href="AddItems?productCode=${p.productcode}">
-                            <input type="button" class="btn btn-outline-success" value="Add to cart"/>
-                        </a>
-
-                    </div>
-
-                </div>   
-                </div>
-            </c:forEach>
+                </c:forEach>
             </div>
             <div>
-                
+
             </div>
         </div>
 
