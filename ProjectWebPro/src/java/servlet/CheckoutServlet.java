@@ -55,44 +55,29 @@ public class CheckoutServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception, StackOverflowError {
         HttpSession session = request.getSession(false);
-        Cart cart = (Cart) session.getAttribute("cart");///////////////////////////////////
-        AccountJpaController accounttrl = new AccountJpaController(utx, emf);/////////////////////////
+        Cart cart = (Cart) session.getAttribute("cart");
+        AccountJpaController accounttrl = new AccountJpaController(utx, emf);
         ProductJpaController prodCtrl = new ProductJpaController(utx, emf);
-        OrderlistJpaController olCtrl = new OrderlistJpaController(utx, emf);/////////////////////
-        OrderdetailJpaController odCtrl = new OrderdetailJpaController(utx, emf);////////////////////////
-        Account account = (Account) session.getAttribute("account");/////////////////////////////
+        OrderlistJpaController olCtrl = new OrderlistJpaController(utx, emf);
+        OrderdetailJpaController odCtrl = new OrderdetailJpaController(utx, emf);
+        Account account = (Account) session.getAttribute("account");
         Orderdetail od = new Orderdetail();
         Orderlist ol = new Orderlist();
         if (session != null) {
             ol.setOrderdate(new Date());
             ol.setAccountid(accounttrl.findAccount(account.getAccountid()));
-            System.out.println("======================================");
-            System.out.println(ol.toString());
-            System.out.println("======================================");
-            olCtrl.create(ol);////////////////////////////////
+            olCtrl.create(ol);
             List<ItemsInCart> items = cart.getitemsInCart();
             List<Orderdetail> odList = new ArrayList<Orderdetail>();
             for (ItemsInCart itemsInCart : items) {
                 od.setOrdernumber(ol);
                 od.setProductcode(itemsInCart.getProduct());
                 od.setQuantity(itemsInCart.getQuantity());
-//              od.setOrderlist(ol);
                 odCtrl.create(od);
                 odList.add(od);
                 ol.setOrderdetailList(odList);
             }
-//            List<Orderlist> olFromDB = olCtrl.findOrderlistEntities();
-//            List<Orderlist> olList = new ArrayList<>();
-//            for (Orderlist orderlist : olFromDB) {
-//                if (orderlist.getAccountid() instanceof Account) {
-//                    olList.add(orderlist);
-//
-//                }
         }
-//            System.out.println("=====================================================");
-//            System.out.println(od.toString());
-//            System.out.println("=====================================================");
-//            account.setOrderlistList(olList);
         session.setAttribute("account", account);
         session.removeAttribute("cart");
         response.sendRedirect("HomePage.jsp");

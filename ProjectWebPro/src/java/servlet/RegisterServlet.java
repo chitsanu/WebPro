@@ -50,7 +50,7 @@ public class RegisterServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
 
-        HttpSession session = request.getSession(true);
+
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -65,15 +65,15 @@ public class RegisterServlet extends HttpServlet {
             AccountJpaController acCtrl = new AccountJpaController(utx, emf);
             ProfileJpaController profileCtrl = new ProfileJpaController(utx, emf);
             CardJpaController cardCtrl = new CardJpaController(utx, emf);
-            Account account = new Account(email, password, cryptWithMD5(password));
+            Account account = new Account(email, cryptWithMD5(password), cryptWithMD5(password)+"1");
             acCtrl.create(account);
             Profile profile = new Profile(fname, Lname, address, tel);
             profile.setAccountid(acCtrl.findAccount(account.getAccountid()));
             Card card = new Card(cardNumStr, exp, cvc);
             card.setAccountid(acCtrl.findAccount(account.getAccountid()));
-            System.out.println("======================================================");
-            System.out.println(profile);
-            System.out.println("======================================================");
+//            System.out.println("======================================================");
+//            System.out.println(profile);
+//            System.out.println("======================================================");
             profileCtrl.create(profile);
             cardCtrl.create(card);
             getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
