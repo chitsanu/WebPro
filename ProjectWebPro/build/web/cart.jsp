@@ -65,6 +65,9 @@
                         
                         <p>Quantity : ${i.quantity}</p><br>
                         <p>${i.totalPrice} Baht</p>
+                        <a href="AddItemFromCart?productCode=${i.product.productcode}">
+                            <input type="button" class="btn btn-outline-success" value="Add to cart"/>
+                        </a>
                          <a href="RemoveItems?productCode=${i.product.productcode}">
                             <input type="button" class="btn btn-outline-danger" value="Remove"/>
                         </a>

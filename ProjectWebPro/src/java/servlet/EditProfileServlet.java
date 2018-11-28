@@ -59,7 +59,6 @@ public class EditProfileServlet extends HttpServlet {
         String cardNumStr = request.getParameter("card");
         String exp = request.getParameter("exp");
         String cvc = request.getParameter("cvc");
-        int cardNum = Integer.valueOf(cardNumStr);
         
         AccountJpaController accCtrl=new AccountJpaController(utx, emf);
         ProfileJpaController pfCtrl = new ProfileJpaController(utx, emf);
@@ -73,7 +72,7 @@ public class EditProfileServlet extends HttpServlet {
         System.out.println(profile.toString());
         System.out.println("=============================================");
 //        card.setAccountid(accCtrl.findAccount(account.getAccountid()));
-        card.setCardnumber(cardNum);
+        card.setCardnumber(cardNumStr);
         card.setExp(exp);
         card.setCvc(cvc);
         System.out.println(card.toString());

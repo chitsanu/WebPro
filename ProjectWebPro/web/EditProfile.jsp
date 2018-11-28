@@ -32,9 +32,9 @@
             <br>
             <br>
             <label>Credit Card</label> <br>           
-            Card Number<input type="number" name="card" value="${sessionScope.card.cardnumber}"/><br>    
-            Exp.<input type="text"name="exp" value="${sessionScope.card.exp}"><br>        
-            CVC<input type="number"name="cvc" value="${sessionScope.card.cvc}"/>
+            Card Number<input type="number" name="card" minlength="16" maxlength="16" value="${sessionScope.card.cardnumber}"/><br>    
+            Exp.<input type="text"name="exp" minlength="5" maxlength="5" value="${sessionScope.card.exp}"><br>        
+            CVC<input type="number"name="cvc" minlength="3" maxlength="3" value="${sessionScope.card.cvc}"/>
                       
                       
             <br>

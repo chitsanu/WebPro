@@ -31,8 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Card.findAll", query = "SELECT c FROM Card c")
     , @NamedQuery(name = "Card.findByCardid", query = "SELECT c FROM Card c WHERE c.cardid = :cardid")
-    , @NamedQuery(name = "Card.findByAccountid", query = "SELECT c FROM Card c WHERE c.accountid = :accountid")
     , @NamedQuery(name = "Card.findByCardnumber", query = "SELECT c FROM Card c WHERE c.cardnumber = :cardnumber")
+    , @NamedQuery(name = "Card.findByAccountid", query = "SELECT c FROM Card c WHERE c.accountid = :accountid")
     , @NamedQuery(name = "Card.findByExp", query = "SELECT c FROM Card c WHERE c.exp = :exp")
     , @NamedQuery(name = "Card.findByCvc", query = "SELECT c FROM Card c WHERE c.cvc = :cvc")})
 public class Card implements Serializable {
@@ -45,8 +45,9 @@ public class Card implements Serializable {
     private Integer cardid;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 16)
     @Column(name = "CARDNUMBER")
-    private int cardnumber;
+    private String cardnumber;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -68,14 +69,15 @@ public class Card implements Serializable {
         this.cardid = cardid;
     }
 
-    public Card(int cardnumber, String exp, String cvc) {
+    public Card(String cardnumber, String exp, String cvc) {
         this.cardnumber = cardnumber;
         this.exp = exp;
         this.cvc = cvc;
     }
 
     
-    public Card(Integer cardid, int cardnumber, String exp, String cvc) {
+    
+    public Card(Integer cardid, String cardnumber, String exp, String cvc) {
         this.cardid = cardid;
         this.cardnumber = cardnumber;
         this.exp = exp;
@@ -90,11 +92,11 @@ public class Card implements Serializable {
         this.cardid = cardid;
     }
 
-    public int getCardnumber() {
+    public String getCardnumber() {
         return cardnumber;
     }
 
-    public void setCardnumber(int cardnumber) {
+    public void setCardnumber(String cardnumber) {
         this.cardnumber = cardnumber;
     }
 
@@ -142,15 +144,9 @@ public class Card implements Serializable {
         return true;
     }
 
-    
-//    @Override
-//    public String toString() {
-//        return "model.Card[ cardid=" + cardid + " ]";
-//    }
-
     @Override
     public String toString() {
-        return "Card{" + "cardid=" + cardid + ", cardnumber=" + cardnumber + ", exp=" + exp + ", cvc=" + cvc + ", accountid=" + accountid + '}';
+        return "model.Card[ cardid=" + cardid + " ]";
     }
     
 }

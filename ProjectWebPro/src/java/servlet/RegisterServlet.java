@@ -62,7 +62,6 @@ public class RegisterServlet extends HttpServlet {
         String exp = request.getParameter("exp");
         String cvc = request.getParameter("cvc");
         if (email != null && password != null) {
-            int cardNum = Integer.valueOf(cardNumStr);
             AccountJpaController acCtrl = new AccountJpaController(utx, emf);
             ProfileJpaController profileCtrl = new ProfileJpaController(utx, emf);
             CardJpaController cardCtrl = new CardJpaController(utx, emf);
@@ -70,7 +69,7 @@ public class RegisterServlet extends HttpServlet {
             acCtrl.create(account);
             Profile profile = new Profile(fname, Lname, address, tel);
             profile.setAccountid(acCtrl.findAccount(account.getAccountid()));
-            Card card = new Card(cardNum, exp, cvc);
+            Card card = new Card(cardNumStr, exp, cvc);
             card.setAccountid(acCtrl.findAccount(account.getAccountid()));
             System.out.println("======================================================");
             System.out.println(profile);

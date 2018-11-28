@@ -41,9 +41,9 @@
                       </tr>
                        <tr>
                           
-                           <td>Card Number<input type="number"name="card" required/></td>
-                           <td>Exp.<input type="text"name="exp" required/></td>
-                          <td>CVC<input type="number"name="cvc" required/></td>
+                           <td>Card Number<input type="number"name="card" minlength="16" maxlength="16" required/></td>
+                           <td>Exp.<input type="text"name="exp" minlength="5" maxlength="5" required/></td>
+                           <td>CVC<input type="number"name="cvc" minlength="3" maxlength="3" required/></td>
                       </tr>
                       <tr>
                           <td></td>
