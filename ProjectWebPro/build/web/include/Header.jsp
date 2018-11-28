@@ -16,13 +16,31 @@
     <style>
         .wrapper{
             display:grid;
-            grid-template-columns: 40% 60%;
-            background: #79BD9A;
+            /*grid-template-columns: 40% 60%*/
+            background-image: url("Pic/BG.jpg");
+            height: 250px;  
+              background-size: 100%;
+              background-repeat: no-repeat;
+              background-position-y: -200px;
+              
         }
 
         .brandner{
-            padding-left: 1em;
-            align-self: flex-start;
+            display: grid;
+          justify-content: center;
+          align-content: center;
+          
+        }
+        h1{
+            font-size: 70px;
+            color: whitesmoke;
+            box-sizing: border-box;
+           
+            padding: 30px;
+            border: solid;
+            border-color: whitesmoke;
+            border-width: 5px;
+            
         }
         .navHead{
             padding-top: 1em;
@@ -41,7 +59,7 @@
             text-decoration: none;
         }
         a:hover{
-            color: #CFF09E;
+            color: cadetblue;
         }
         img{
             padding: 5px;
@@ -54,7 +72,7 @@
             text-decoration: none;
         }
         .dropdown{
-            
+
             color:#CFF09E;
         }
 
@@ -63,7 +81,7 @@
 </header>
 <div class="wrapper">
     <div class="brandner">
-        <a href="HomePage.jsp"><img src="Pic/LOGO.png" width="100px" hight="50px"></a>
+        <h1>Exotic Food</h1>
     </div>     
     <div class="navHead">
         <a href="Register">Sign up</a>
@@ -81,7 +99,7 @@
 
     </div>
 </div>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #A8DBA8"><!--NavBar-->
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: green"><!--NavBar-->
     <a class="navbar-brand" style="color : whitesmoke" href="HomePage.jsp"><h2>Exotic Animal Food</h2></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -98,7 +116,7 @@
             <li class="nav-item">
                 <a class="nav-link" style="color : whitesmoke" href="#">Contact</a><!--ใส่link-->
             </li>
-            
+
             <div class="dropdown"> 
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     Profile
@@ -106,7 +124,7 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="EditProfile.jsp" style="color : #79BD9A">Edit Profile</a>
                     <a class="dropdown-item" href="History" style="color : #79BD9A">History</a>
-                    
+
                 </div>
             </div>
 
@@ -114,7 +132,7 @@
 
         <form class="form-inline my-2 my-lg-0" action="Search" method="post"><!--ใส่ action-->
             <input class="form-control mr-sm-2" type="search" placeholder="search" aria-label="Search" name="search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" style='color: black' type="submit">Search</button>
         </form>
     </div>
 

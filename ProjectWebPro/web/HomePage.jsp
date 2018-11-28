@@ -21,44 +21,40 @@
         }
         .image{
             display:Grid;
-            
+
             justify-items: stertch;
-            
-            
+
+
         }
         .img1{
-            display:Grid;
-            align-items: flex-start;
-            
+            max-width: 100%;
+            height: auto;
         }
         .img2{
-            display:Grid;
-             justify-items: center;
-            
+            max-width: 100%;
+            height: auto;
+
         }
-         .img2{
-            display:Grid;
-             align-items: flex-end;
-           
+        .img2{
+            max-width: 100%;
+            height: auto;
+
         }
-        
+
     </style>
     <body>
         <jsp:include page = "include/Header.jsp"/>
-        
-        <div class="topic">
-            <h1>We have Foods For your Furry Friend.</h1>
 
-        </div>
+
         <div class="image">
             <div class="img1">
-                <img src="Pic/img1.png" class="img-thumbnail " width="50%" height="50%">
+                <img src="Pic/img1.png" class="img-thumbnail " >
             </div>
             <div class="img2">
-                <img src="Pic/img2.jpg" class="img-thumbnail " width="50%" height="50%">
+                <img src="Pic/img2.jpg" class="img-thumbnail " >
             </div>
             <div class="img3">
-                <img src="Pic/img3.jpg" class="img-thumbnail " width="50%" height="50%">
+                <img src="Pic/img3.jpg" class="img-thumbnail " >
             </div>
         </div>
     </body>

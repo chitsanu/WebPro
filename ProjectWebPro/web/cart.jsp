@@ -12,82 +12,70 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Cart</title>
         <style>
-            .Wrapper{
-                display:grid;
-                grid-template-columns: 50% 50% ;
-                grid-gap: 1em;
-                margin-left: 1em;
-                margin-right: 1em;
-                margin-bottom: 1em;
 
-            }
-            h1{
-                padding :1em;
-                text-align: center;
-            }
-            .showProduct{
-                display:grid;
-                grid-gap: 1em;
-                grid-template-columns: 50%;
-                border-style : solid;
-                border-radius: 5px;
-                border-color: #A8DBA8;  
-            }
-            .product{
-                display:grid ;
-                padding-top: 2em; 
-                justify-content: flex-start;
-                align-content: center;
-            }
-            .productimage{
-                display:grid ;
-                align-content: center;
-            }
-            #total{
-                
-            }
         </style>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     </head>
     <body> 
         <jsp:include page = "include/Header.jsp"/>
-      
-        <h1>Your Cart</h1>
 
-        <div class="Wrapper">
+
+
+        <table class="table table-hover">   
+
+
+            <thead>
+                <tr>
+                    <th>Product Code</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price(Baht)</th>
+
+                </tr>
+            </thead>
             <c:set var="items" value="${sessionScope.cart.itemsInCart}"/>
             <c:forEach items="${cart.itemsInCart}" var="i">
-                <div class="showProduct">
+                <tbody>
+                    <tr>
+                        <td>${i.product.productcode}</td>
+                        <td>${i.product.productname}</td>
+                        <td>${i.quantity}</td>
+                        <td>${i.totalPrice}</td>
 
-                    <div class="product">
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="AddItemFromCart?productCode=${i.product.productcode}">
+                                <input type="button" class="btn btn-outline-success" style='color:#217a43' value="Add to cart"/>
+                            </a>
+                            <a href="RemoveItems?productCode=${i.product.productcode}">
+                                <input type="button" class="btn btn-outline-danger" style="color: brown" value="Remove"/>
+                            </a> 
+                        </td>
+                    </tr>
+                </tbody>
 
-                        <p>${i.product.productcode}</p> <br>
-                        <p>${i.product.productname}</p> <br>
-                        
-                        <p>Quantity : ${i.quantity}</p><br>
-                        <p>${i.totalPrice} Baht</p>
-                        <a href="AddItemFromCart?productCode=${i.product.productcode}">
-                            <input type="button" class="btn btn-outline-success" value="Add to cart"/>
-                        </a>
-                         <a href="RemoveItems?productCode=${i.product.productcode}">
-                            <input type="button" class="btn btn-outline-danger" value="Remove"/>
-                        </a>
 
-                    </div>
 
-                </div>   
+
             </c:forEach>
-            <div id="total">
-            Total Quantity : ${cart.totalQuantity}<br>
-            Total Price ${cart.totalPrice} Baht<br>
-            <a href="Checkout">
+        </table>
+        Total Quantity : ${cart.totalQuantity}<br>
+        Total Price ${cart.totalPrice} Baht<br>
+        <a href="Checkout">
             <button onclick="noti()"type="button" class="btn btn-primary">Check Out</button>
-            </a>
-            <script>
-              function noti(){
-              alert("Check out Complete");
-              }  
-            </script>
-            </div>
-        </div>
-    </body>
+        </a>
+        <script>
+            function noti() {
+                alert("Check out Complete");
+            }
+        </script>
+    </div>
+</div>
+</body>
 </html>

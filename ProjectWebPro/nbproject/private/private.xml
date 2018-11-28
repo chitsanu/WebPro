@@ -3,19 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< Updated upstream
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/web/product.jsp</file>
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/src/java/servlet/AddItemFromCartServlet.java</file>
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/web/cart.jsp</file>
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/src/java/controller/ProductJpaController.java</file>
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/src/java/servlet/RemoveItemsServlet.java</file>
-            <file>file:/A:/INT303/Test/WebPro/ProjectWebPro/src/java/servlet/AddItemsServlet.java</file>
-=======
             <file>file:/C:/Users/James/Desktop/WebPro/WebPro/ProjectWebPro/web/product.jsp</file>
+            <file>file:/C:/Users/James/Desktop/WebPro/WebPro/ProjectWebPro/src/java/servlet/HistoryServlet.java</file>
+            <file>file:/C:/Users/James/Desktop/WebPro/WebPro/ProjectWebPro/web/cart.jsp</file>
             <file>file:/C:/Users/James/Desktop/WebPro/WebPro/ProjectWebPro/web/HomePage.jsp</file>
-            <file>file:/C:/Users/James/Desktop/WebPro/WebPro/ProjectWebPro/src/conf/persistence.xml</file>
-            <file>file:/C:/Users/James/Desktop/WebPro/WebPro/ProjectWebPro/src/java/servlet/productServlet.java</file>
->>>>>>> Stashed changes
+            <file>file:/C:/Users/James/Desktop/WebPro/WebPro/ProjectWebPro/web/History.jsp</file>
+            <file>file:/C:/Users/James/Desktop/WebPro/WebPro/ProjectWebPro/web/include/Header.jsp</file>
         </group>
     </open-files>
 </project-private>
