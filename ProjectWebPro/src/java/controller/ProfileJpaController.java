@@ -16,8 +16,8 @@ import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 import model.Account;
 import model.Profile;
-import model.controller.exceptions.NonexistentEntityException;
-import model.controller.exceptions.RollbackFailureException;
+import controller.exceptions.NonexistentEntityException;
+import controller.exceptions.RollbackFailureException;
 
 /**
  *

@@ -5,27 +5,24 @@
  */
 package controller;
 
-import model.controller.exceptions.IllegalOrphanException;
-import model.controller.exceptions.NonexistentEntityException;
-import model.controller.exceptions.PreexistingEntityException;
-import model.controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.Orderlist;
-import model.Product;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
 import model.Orderdetail;
+import model.Orderlist;
+import model.Product;
+import controller.exceptions.NonexistentEntityException;
+import controller.exceptions.RollbackFailureException;
 
 /**
  *
- * @author James
+ * @author SSirith
  */
 public class OrderdetailJpaController implements Serializable {
 
@@ -40,29 +37,15 @@ public class OrderdetailJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Orderdetail orderdetail) throws IllegalOrphanException, PreexistingEntityException, RollbackFailureException, Exception {
-        List<String> illegalOrphanMessages = null;
-        Orderlist orderlistOrphanCheck = orderdetail.getOrderlist();
-        if (orderlistOrphanCheck != null) {
-            Orderdetail oldOrderdetailOfOrderlist = orderlistOrphanCheck.getOrderdetail();
-            if (oldOrderdetailOfOrderlist != null) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("The Orderlist " + orderlistOrphanCheck + " already has an item of type Orderdetail whose orderlist column cannot be null. Please make another selection for the orderlist field.");
-            }
-        }
-        if (illegalOrphanMessages != null) {
-            throw new IllegalOrphanException(illegalOrphanMessages);
-        }
+    public void create(Orderdetail orderdetail) throws RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            Orderlist orderlist = orderdetail.getOrderlist();
-            if (orderlist != null) {
-                orderlist = em.getReference(orderlist.getClass(), orderlist.getOrdernumber());
-                orderdetail.setOrderlist(orderlist);
+            Orderlist ordernumber = orderdetail.getOrdernumber();
+            if (ordernumber != null) {
+                ordernumber = em.getReference(ordernumber.getClass(), ordernumber.getOrdernumber());
+                orderdetail.setOrdernumber(ordernumber);
             }
             Product productcode = orderdetail.getProductcode();
             if (productcode != null) {
@@ -70,9 +53,9 @@ public class OrderdetailJpaController implements Serializable {
                 orderdetail.setProductcode(productcode);
             }
             em.persist(orderdetail);
-            if (orderlist != null) {
-                orderlist.setOrderdetail(orderdetail);
-                orderlist = em.merge(orderlist);
+            if (ordernumber != null) {
+                ordernumber.getOrderdetailList().add(orderdetail);
+                ordernumber = em.merge(ordernumber);
             }
             if (productcode != null) {
                 productcode.getOrderdetailList().add(orderdetail);
@@ -85,9 +68,6 @@ public class OrderdetailJpaController implements Serializable {
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
-            if (findOrderdetail(orderdetail.getOrdernumber()) != null) {
-                throw new PreexistingEntityException("Orderdetail " + orderdetail + " already exists.", ex);
-            }
             throw ex;
         } finally {
             if (em != null) {
@@ -96,45 +76,32 @@ public class OrderdetailJpaController implements Serializable {
         }
     }
 
-    public void edit(Orderdetail orderdetail) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(Orderdetail orderdetail) throws NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            Orderdetail persistentOrderdetail = em.find(Orderdetail.class, orderdetail.getOrdernumber());
-            Orderlist orderlistOld = persistentOrderdetail.getOrderlist();
-            Orderlist orderlistNew = orderdetail.getOrderlist();
+            Orderdetail persistentOrderdetail = em.find(Orderdetail.class, orderdetail.getNoOrder());
+            Orderlist ordernumberOld = persistentOrderdetail.getOrdernumber();
+            Orderlist ordernumberNew = orderdetail.getOrdernumber();
             Product productcodeOld = persistentOrderdetail.getProductcode();
             Product productcodeNew = orderdetail.getProductcode();
-            List<String> illegalOrphanMessages = null;
-            if (orderlistNew != null && !orderlistNew.equals(orderlistOld)) {
-                Orderdetail oldOrderdetailOfOrderlist = orderlistNew.getOrderdetail();
-                if (oldOrderdetailOfOrderlist != null) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("The Orderlist " + orderlistNew + " already has an item of type Orderdetail whose orderlist column cannot be null. Please make another selection for the orderlist field.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            if (orderlistNew != null) {
-                orderlistNew = em.getReference(orderlistNew.getClass(), orderlistNew.getOrdernumber());
-                orderdetail.setOrderlist(orderlistNew);
+            if (ordernumberNew != null) {
+                ordernumberNew = em.getReference(ordernumberNew.getClass(), ordernumberNew.getOrdernumber());
+                orderdetail.setOrdernumber(ordernumberNew);
             }
             if (productcodeNew != null) {
                 productcodeNew = em.getReference(productcodeNew.getClass(), productcodeNew.getProductcode());
                 orderdetail.setProductcode(productcodeNew);
             }
             orderdetail = em.merge(orderdetail);
-            if (orderlistOld != null && !orderlistOld.equals(orderlistNew)) {
-                orderlistOld.setOrderdetail(null);
-                orderlistOld = em.merge(orderlistOld);
+            if (ordernumberOld != null && !ordernumberOld.equals(ordernumberNew)) {
+                ordernumberOld.getOrderdetailList().remove(orderdetail);
+                ordernumberOld = em.merge(ordernumberOld);
             }
-            if (orderlistNew != null && !orderlistNew.equals(orderlistOld)) {
-                orderlistNew.setOrderdetail(orderdetail);
-                orderlistNew = em.merge(orderlistNew);
+            if (ordernumberNew != null && !ordernumberNew.equals(ordernumberOld)) {
+                ordernumberNew.getOrderdetailList().add(orderdetail);
+                ordernumberNew = em.merge(ordernumberNew);
             }
             if (productcodeOld != null && !productcodeOld.equals(productcodeNew)) {
                 productcodeOld.getOrderdetailList().remove(orderdetail);
@@ -153,7 +120,7 @@ public class OrderdetailJpaController implements Serializable {
             }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = orderdetail.getOrdernumber();
+                Integer id = orderdetail.getNoOrder();
                 if (findOrderdetail(id) == null) {
                     throw new NonexistentEntityException("The orderdetail with id " + id + " no longer exists.");
                 }
@@ -174,14 +141,14 @@ public class OrderdetailJpaController implements Serializable {
             Orderdetail orderdetail;
             try {
                 orderdetail = em.getReference(Orderdetail.class, id);
-                orderdetail.getOrdernumber();
+                orderdetail.getNoOrder();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The orderdetail with id " + id + " no longer exists.", enfe);
             }
-            Orderlist orderlist = orderdetail.getOrderlist();
-            if (orderlist != null) {
-                orderlist.setOrderdetail(null);
-                orderlist = em.merge(orderlist);
+            Orderlist ordernumber = orderdetail.getOrdernumber();
+            if (ordernumber != null) {
+                ordernumber.getOrderdetailList().remove(orderdetail);
+                ordernumber = em.merge(ordernumber);
             }
             Product productcode = orderdetail.getProductcode();
             if (productcode != null) {

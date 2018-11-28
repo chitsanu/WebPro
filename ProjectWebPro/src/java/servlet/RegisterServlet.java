@@ -22,8 +22,10 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import model.Account;
 import model.Profile;
-import model.controller.AccountJpaController;
+import controller.AccountJpaController;
+import controller.CardJpaController;
 import controller.ProfileJpaController;
+import model.Card;
 
 /**
  *
@@ -56,17 +58,25 @@ public class RegisterServlet extends HttpServlet {
         String Lname = request.getParameter("lname");
         String address = request.getParameter("address");
         String tel = request.getParameter("tel");
+        String cardNumStr = request.getParameter("card");
+        String exp = request.getParameter("exp");
+        String cvc = request.getParameter("cvc");
         if (email != null && password != null) {
+            int cardNum = Integer.valueOf(cardNumStr);
             AccountJpaController acCtrl = new AccountJpaController(utx, emf);
             ProfileJpaController profileCtrl = new ProfileJpaController(utx, emf);
+            CardJpaController cardCtrl = new CardJpaController(utx, emf);
             Account account = new Account(email, password, cryptWithMD5(password));
             acCtrl.create(account);
             Profile profile = new Profile(fname, Lname, address, tel);
             profile.setAccountid(acCtrl.findAccount(account.getAccountid()));
+            Card card = new Card(cardNum, exp, cvc);
+            card.setAccountid(acCtrl.findAccount(account.getAccountid()));
             System.out.println("======================================================");
             System.out.println(profile);
             System.out.println("======================================================");
             profileCtrl.create(profile);
+            cardCtrl.create(card);
             getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
 
         } else {

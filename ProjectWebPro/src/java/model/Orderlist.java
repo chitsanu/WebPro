@@ -7,6 +7,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,16 +19,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author James
+ * @author SSirith
  */
 @Entity
 @Table(name = "ORDERLIST")
@@ -35,7 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Orderlist.findAll", query = "SELECT o FROM Orderlist o")
     , @NamedQuery(name = "Orderlist.findByOrderdate", query = "SELECT o FROM Orderlist o WHERE o.orderdate = :orderdate")
-    , @NamedQuery(name = "Orderlist.findByOrdernumber", query = "SELECT o FROM Orderlist o WHERE o.ordernumber = :ordernumber")})
+    , @NamedQuery(name = "Orderlist.findByAccountid", query = "SELECT o FROM Orderlist o WHERE o.accountid = :accountid")})
 public class Orderlist implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,18 +54,12 @@ public class Orderlist implements Serializable {
     @JoinColumn(name = "ACCOUNTID", referencedColumnName = "ACCOUNTID")
     @ManyToOne(optional = false)
     private Account accountid;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "orderlist")
-    private Orderdetail orderdetail;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ordernumber")
+    private List<Orderdetail> orderdetailList;
 
     public Orderlist() {
     }
 
-    public Orderlist(Date orderdate, Account accountid) {
-        this.orderdate = orderdate;
-        this.accountid = accountid;
-    }
-
-    
     public Orderlist(Integer ordernumber) {
         this.ordernumber = ordernumber;
     }
@@ -97,12 +93,13 @@ public class Orderlist implements Serializable {
         this.accountid = accountid;
     }
 
-    public Orderdetail getOrderdetail() {
-        return orderdetail;
+    @XmlTransient
+    public List<Orderdetail> getOrderdetailList() {
+        return orderdetailList;
     }
 
-    public void setOrderdetail(Orderdetail orderdetail) {
-        this.orderdetail = orderdetail;
+    public void setOrderdetailList(List<Orderdetail> orderdetailList) {
+        this.orderdetailList = orderdetailList;
     }
 
     @Override
@@ -131,9 +128,9 @@ public class Orderlist implements Serializable {
 //        return "model.Orderlist[ ordernumber=" + ordernumber + " ]";
 //    }
 
-    @Override
-    public String toString() {
-        return "Orderlist{" + "orderdate=" + orderdate + ", ordernumber=" + ordernumber + ", accountid=" + accountid + ", orderdetail=" + orderdetail + '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Orderlist{" + "orderdate=" + orderdate + ", ordernumber=" + ordernumber + ", accountid=" + accountid + ", orderdetailList=" + orderdetailList + '}';
+//    }
     
 }

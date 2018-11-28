@@ -39,6 +39,12 @@
                           <td>tel: </td>
                           <td><input type="tel"name="tel"required/></td>
                       </tr>
+                       <tr>
+                          
+                           <td>Card Number<input type="number"name="card" required/></td>
+                           <td>Exp.<input type="text"name="exp" required/></td>
+                          <td>CVC<input type="number"name="cvc" required/></td>
+                      </tr>
                       <tr>
                           <td></td>
                           <td><input type="submit"value="Register"/></td>

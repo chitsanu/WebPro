@@ -5,9 +5,11 @@
  */
 package servlet;
 
-import controller.ProfileJpaController;
+import controller.OrderlistJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -17,19 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
+import jdk.nashorn.internal.runtime.regexp.joni.EncodingHelper;
 import model.Account;
-import model.Profile;
-import controller.AccountJpaController;
-import controller.CardJpaController;
-import java.util.ArrayList;
-import java.util.List;
-import model.Card;
+import model.Orderdetail;
+import model.Orderlist;
 
 /**
  *
  * @author SSirith
  */
-public class LoginServlet extends HttpServlet {
+public class HistoryServlet extends HttpServlet {
 
     @PersistenceUnit(unitName = "ProjectPU")
     EntityManagerFactory emf;
@@ -47,37 +46,27 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        if (email != null && password != null) {
-            AccountJpaController acCtrl = new AccountJpaController(utx, emf);
-            ProfileJpaController proCtrl = new ProfileJpaController(utx, emf);
-            CardJpaController cardCtrl = new CardJpaController(utx, emf);
-            Account account = acCtrl.findAccountEmail(email);
-            Profile profile = proCtrl.findByAccountid(account);
-            Card card = cardCtrl.findByAccountid(account);
-            System.out.println("===========================================");
-            System.out.println(profile.toString());
-            System.out.println(card.toString());
-            System.out.println("===========================================");
-            if (account != null) {
-                if (account.getEmail().equals(email) && account.getPassword().equals(password)) {
-//                    List<Profile>profileList = new ArrayList<>();
-//                    profileList.add(profile);
-//                    account.setProfileList(profileList);
-//                    System.out.println(account.toString());
-                    session.setAttribute("account", account);
-                    session.setAttribute("profile", profile);
-                    session.setAttribute("card", card);
-                    getServletContext().getRequestDispatcher("/HomePage.jsp").forward(request, response);
-                    return;
-                }
+        HttpSession session = request.getSession(false);
+        Account account = (Account) session.getAttribute("account");
+        OrderlistJpaController olCtrl = new OrderlistJpaController(utx, emf);
+        List<Orderlist> olFromDB = olCtrl.findByAccountid(account);
+        for (Orderlist orderlist : olFromDB) {
+            for (Orderdetail orderdetail : orderlist.getOrderdetailList()) {
+                System.out.println(orderdetail);
             }
-            request.setAttribute("message", "Invalid username or password.");
         }
-            
-        getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);
+//        List<Orderlist> olList = new ArrayList<>();
+//        for (Orderlist orderlist : olFromDB) {
+//            System.out.println(orderlist);
+//        }
+//        for (Orderlist orderlist : olFromDB) {
+//            if (orderlist.getAccountid() instanceof Account) {
+//                olList.add(orderlist);
+//
+//            }
+//        }
+        request.setAttribute("Orderlist", olFromDB);
+        getServletContext().getRequestDispatcher("/History.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -30,7 +30,7 @@ import model.Cart;
 import model.ItemsInCart;
 import model.Orderdetail;
 import model.Orderlist;
-import model.controller.AccountJpaController;
+import controller.AccountJpaController;
 
 /**
  *
@@ -53,7 +53,7 @@ public class CheckoutServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+            throws ServletException, IOException, Exception, StackOverflowError {
         HttpSession session = request.getSession(false);
         Cart cart = (Cart) session.getAttribute("cart");///////////////////////////////////
         AccountJpaController accounttrl = new AccountJpaController(utx, emf);/////////////////////////
@@ -61,9 +61,9 @@ public class CheckoutServlet extends HttpServlet {
         OrderlistJpaController olCtrl = new OrderlistJpaController(utx, emf);/////////////////////
         OrderdetailJpaController odCtrl = new OrderdetailJpaController(utx, emf);////////////////////////
         Account account = (Account) session.getAttribute("account");/////////////////////////////
+        Orderdetail od = new Orderdetail();
+        Orderlist ol = new Orderlist();
         if (session != null) {
-            Orderdetail od = new Orderdetail();
-            Orderlist ol = new Orderlist();
             ol.setOrderdate(new Date());
             ol.setAccountid(accounttrl.findAccount(account.getAccountid()));
             System.out.println("======================================");
@@ -71,31 +71,32 @@ public class CheckoutServlet extends HttpServlet {
             System.out.println("======================================");
             olCtrl.create(ol);////////////////////////////////
             List<ItemsInCart> items = cart.getitemsInCart();
+            List<Orderdetail> odList = new ArrayList<Orderdetail>();
             for (ItemsInCart itemsInCart : items) {
-                od.setOrdernumber(ol.getOrdernumber());
+                od.setOrdernumber(ol);
                 od.setProductcode(itemsInCart.getProduct());
                 od.setQuantity(itemsInCart.getQuantity());
-                od.setOrderlist(ol);
-                System.out.println("==============================================");
-                System.out.println(od.toString());
-                System.out.println("==============================================");
+//              od.setOrderlist(ol);
                 odCtrl.create(od);
+                odList.add(od);
+                ol.setOrderdetailList(odList);
             }
-            List<Orderlist> olFromDB = olCtrl.findOrderlistEntities();
-            List<Orderlist> olList = new ArrayList<>();
-            for (Orderlist orderlist : olFromDB) {
-                if (orderlist.getAccountid()instanceof Account) {
-                    olList.add(orderlist);
-                    
-                }
-            }
-            
-            account.setOrderlistList(olList);
-            session.setAttribute("account", account);
-            session.removeAttribute("cart");
-            response.sendRedirect("HomePage.jsp");
-
+//            List<Orderlist> olFromDB = olCtrl.findOrderlistEntities();
+//            List<Orderlist> olList = new ArrayList<>();
+//            for (Orderlist orderlist : olFromDB) {
+//                if (orderlist.getAccountid() instanceof Account) {
+//                    olList.add(orderlist);
+//
+//                }
         }
+//            System.out.println("=====================================================");
+//            System.out.println(od.toString());
+//            System.out.println("=====================================================");
+//            account.setOrderlistList(olList);
+        session.setAttribute("account", account);
+        session.removeAttribute("cart");
+        response.sendRedirect("HomePage.jsp");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

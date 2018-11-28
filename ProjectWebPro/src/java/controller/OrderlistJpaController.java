@@ -5,9 +5,6 @@
  */
 package controller;
 
-import model.controller.exceptions.IllegalOrphanException;
-import model.controller.exceptions.NonexistentEntityException;
-import model.controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -21,10 +18,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
 import model.Orderlist;
+import controller.exceptions.IllegalOrphanException;
+import controller.exceptions.NonexistentEntityException;
+import controller.exceptions.RollbackFailureException;
 
 /**
  *
- * @author James
+ * @author SSirith
  */
 public class OrderlistJpaController implements Serializable {
 
@@ -40,6 +40,9 @@ public class OrderlistJpaController implements Serializable {
     }
 
     public void create(Orderlist orderlist) throws RollbackFailureException, Exception {
+        if (orderlist.getOrderdetailList() == null) {
+            orderlist.setOrderdetailList(new ArrayList<Orderdetail>());
+        }
         EntityManager em = null;
         try {
             utx.begin();
@@ -49,24 +52,25 @@ public class OrderlistJpaController implements Serializable {
                 accountid = em.getReference(accountid.getClass(), accountid.getAccountid());
                 orderlist.setAccountid(accountid);
             }
-            Orderdetail orderdetail = orderlist.getOrderdetail();
-            if (orderdetail != null) {
-                orderdetail = em.getReference(orderdetail.getClass(), orderdetail.getOrdernumber());
-                orderlist.setOrderdetail(orderdetail);
+            List<Orderdetail> attachedOrderdetailList = new ArrayList<Orderdetail>();
+            for (Orderdetail orderdetailListOrderdetailToAttach : orderlist.getOrderdetailList()) {
+                orderdetailListOrderdetailToAttach = em.getReference(orderdetailListOrderdetailToAttach.getClass(), orderdetailListOrderdetailToAttach.getNoOrder());
+                attachedOrderdetailList.add(orderdetailListOrderdetailToAttach);
             }
+            orderlist.setOrderdetailList(attachedOrderdetailList);
             em.persist(orderlist);
             if (accountid != null) {
                 accountid.getOrderlistList().add(orderlist);
                 accountid = em.merge(accountid);
             }
-            if (orderdetail != null) {
-                Orderlist oldOrderlistOfOrderdetail = orderdetail.getOrderlist();
-                if (oldOrderlistOfOrderdetail != null) {
-                    oldOrderlistOfOrderdetail.setOrderdetail(null);
-                    oldOrderlistOfOrderdetail = em.merge(oldOrderlistOfOrderdetail);
+            for (Orderdetail orderdetailListOrderdetail : orderlist.getOrderdetailList()) {
+                Orderlist oldOrdernumberOfOrderdetailListOrderdetail = orderdetailListOrderdetail.getOrdernumber();
+                orderdetailListOrderdetail.setOrdernumber(orderlist);
+                orderdetailListOrderdetail = em.merge(orderdetailListOrderdetail);
+                if (oldOrdernumberOfOrderdetailListOrderdetail != null) {
+                    oldOrdernumberOfOrderdetailListOrderdetail.getOrderdetailList().remove(orderdetailListOrderdetail);
+                    oldOrdernumberOfOrderdetailListOrderdetail = em.merge(oldOrdernumberOfOrderdetailListOrderdetail);
                 }
-                orderdetail.setOrderlist(orderlist);
-                orderdetail = em.merge(orderdetail);
             }
             utx.commit();
         } catch (Exception ex) {
@@ -91,14 +95,16 @@ public class OrderlistJpaController implements Serializable {
             Orderlist persistentOrderlist = em.find(Orderlist.class, orderlist.getOrdernumber());
             Account accountidOld = persistentOrderlist.getAccountid();
             Account accountidNew = orderlist.getAccountid();
-            Orderdetail orderdetailOld = persistentOrderlist.getOrderdetail();
-            Orderdetail orderdetailNew = orderlist.getOrderdetail();
+            List<Orderdetail> orderdetailListOld = persistentOrderlist.getOrderdetailList();
+            List<Orderdetail> orderdetailListNew = orderlist.getOrderdetailList();
             List<String> illegalOrphanMessages = null;
-            if (orderdetailOld != null && !orderdetailOld.equals(orderdetailNew)) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+            for (Orderdetail orderdetailListOldOrderdetail : orderdetailListOld) {
+                if (!orderdetailListNew.contains(orderdetailListOldOrderdetail)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Orderdetail " + orderdetailListOldOrderdetail + " since its ordernumber field is not nullable.");
                 }
-                illegalOrphanMessages.add("You must retain Orderdetail " + orderdetailOld + " since its orderlist field is not nullable.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -107,10 +113,13 @@ public class OrderlistJpaController implements Serializable {
                 accountidNew = em.getReference(accountidNew.getClass(), accountidNew.getAccountid());
                 orderlist.setAccountid(accountidNew);
             }
-            if (orderdetailNew != null) {
-                orderdetailNew = em.getReference(orderdetailNew.getClass(), orderdetailNew.getOrdernumber());
-                orderlist.setOrderdetail(orderdetailNew);
+            List<Orderdetail> attachedOrderdetailListNew = new ArrayList<Orderdetail>();
+            for (Orderdetail orderdetailListNewOrderdetailToAttach : orderdetailListNew) {
+                orderdetailListNewOrderdetailToAttach = em.getReference(orderdetailListNewOrderdetailToAttach.getClass(), orderdetailListNewOrderdetailToAttach.getNoOrder());
+                attachedOrderdetailListNew.add(orderdetailListNewOrderdetailToAttach);
             }
+            orderdetailListNew = attachedOrderdetailListNew;
+            orderlist.setOrderdetailList(orderdetailListNew);
             orderlist = em.merge(orderlist);
             if (accountidOld != null && !accountidOld.equals(accountidNew)) {
                 accountidOld.getOrderlistList().remove(orderlist);
@@ -120,14 +129,16 @@ public class OrderlistJpaController implements Serializable {
                 accountidNew.getOrderlistList().add(orderlist);
                 accountidNew = em.merge(accountidNew);
             }
-            if (orderdetailNew != null && !orderdetailNew.equals(orderdetailOld)) {
-                Orderlist oldOrderlistOfOrderdetail = orderdetailNew.getOrderlist();
-                if (oldOrderlistOfOrderdetail != null) {
-                    oldOrderlistOfOrderdetail.setOrderdetail(null);
-                    oldOrderlistOfOrderdetail = em.merge(oldOrderlistOfOrderdetail);
+            for (Orderdetail orderdetailListNewOrderdetail : orderdetailListNew) {
+                if (!orderdetailListOld.contains(orderdetailListNewOrderdetail)) {
+                    Orderlist oldOrdernumberOfOrderdetailListNewOrderdetail = orderdetailListNewOrderdetail.getOrdernumber();
+                    orderdetailListNewOrderdetail.setOrdernumber(orderlist);
+                    orderdetailListNewOrderdetail = em.merge(orderdetailListNewOrderdetail);
+                    if (oldOrdernumberOfOrderdetailListNewOrderdetail != null && !oldOrdernumberOfOrderdetailListNewOrderdetail.equals(orderlist)) {
+                        oldOrdernumberOfOrderdetailListNewOrderdetail.getOrderdetailList().remove(orderdetailListNewOrderdetail);
+                        oldOrdernumberOfOrderdetailListNewOrderdetail = em.merge(oldOrdernumberOfOrderdetailListNewOrderdetail);
+                    }
                 }
-                orderdetailNew.setOrderlist(orderlist);
-                orderdetailNew = em.merge(orderdetailNew);
             }
             utx.commit();
         } catch (Exception ex) {
@@ -164,12 +175,12 @@ public class OrderlistJpaController implements Serializable {
                 throw new NonexistentEntityException("The orderlist with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Orderdetail orderdetailOrphanCheck = orderlist.getOrderdetail();
-            if (orderdetailOrphanCheck != null) {
+            List<Orderdetail> orderdetailListOrphanCheck = orderlist.getOrderdetailList();
+            for (Orderdetail orderdetailListOrphanCheckOrderdetail : orderdetailListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Orderlist (" + orderlist + ") cannot be destroyed since the Orderdetail " + orderdetailOrphanCheck + " in its orderdetail field has a non-nullable orderlist field.");
+                illegalOrphanMessages.add("This Orderlist (" + orderlist + ") cannot be destroyed since the Orderdetail " + orderdetailListOrphanCheckOrderdetail + " in its orderdetailList field has a non-nullable ordernumber field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -223,6 +234,16 @@ public class OrderlistJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.find(Orderlist.class, id);
+        } finally {
+            em.close();
+        }
+    }
+    public List<Orderlist> findByAccountid(Account account) {
+        EntityManager em = getEntityManager();
+        Query q = em.createNamedQuery("Orderlist.findByAccountid");
+        q.setParameter("accountid", account);
+        try {
+            return q.getResultList();
         } finally {
             em.close();
         }

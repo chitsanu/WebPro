@@ -5,8 +5,8 @@
  */
 package controller;
 
-import model.controller.exceptions.NonexistentEntityException;
-import model.controller.exceptions.RollbackFailureException;
+import controller.exceptions.NonexistentEntityException;
+import controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -21,7 +21,7 @@ import model.Card;
 
 /**
  *
- * @author James
+ * @author SSirith
  */
 public class CardJpaController implements Serializable {
 
@@ -170,6 +170,16 @@ public class CardJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.find(Card.class, id);
+        } finally {
+            em.close();
+        }
+    }
+    public Card findByAccountid(Account account) {
+        EntityManager em = getEntityManager();
+        Query q = em.createNamedQuery("Card.findByAccountid");
+        q.setParameter("accountid", account);
+        try {
+            return (Card) q.getSingleResult();
         } finally {
             em.close();
         }

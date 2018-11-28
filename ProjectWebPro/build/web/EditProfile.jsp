@@ -30,6 +30,14 @@
             <label>Phone number</label>
             <input type="text" name="tel" value="${sessionScope.profile.tel}">
             <br>
+            <br>
+            <label>Credit Card</label> <br>           
+            Card Number<input type="number" name="card" value="${sessionScope.card.cardnumber}"/><br>    
+            Exp.<input type="text"name="exp" value="${sessionScope.card.exp}"><br>        
+            CVC<input type="number"name="cvc" value="${sessionScope.card.cvc}"/>
+                      
+                      
+            <br>
             <button type="submit">Update profile</button>
         </form>
     </body>

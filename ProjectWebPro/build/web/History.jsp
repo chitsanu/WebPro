@@ -15,16 +15,21 @@
     <body>
         <h1>Hello World!</h1>
         <table>
-            <th>#</th>
             <th>Order Number</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
             <th>Order Date</th>
-            
-            <c:forEach items="${sessionScope.account.orderlistList}" var="ol" varStatus="vs">
+
+            <c:forEach items="${Orderlist}" var="ol">
                 <tr>
-                    <td>${vs.count}</td>
                     <td>${ol.ordernumber}</td>
+                    <c:forEach items="${ol.orderdetailList}" var="dol">
+                        <td>${dol.productcode.productname}</td>
+                        <td>${dol.quantity}</td>
+                    </c:forEach>
                     <td>${ol.orderdate}</td>
                 </tr>
+
             </c:forEach>
         </table>
     </body>

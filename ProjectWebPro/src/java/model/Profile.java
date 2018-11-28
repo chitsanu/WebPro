@@ -20,7 +20,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import model.Account;
 
 /**
  *
@@ -83,7 +82,7 @@ public class Profile implements Serializable {
         this.address = address;
         this.tel = tel;
     }
-
+    
     public Profile(String fname, String lname, String address, String tel, Account accountid) {
         this.fname = fname;
         this.lname = lname;
@@ -99,8 +98,6 @@ public class Profile implements Serializable {
         this.tel = tel;
     }
 
-    
-    
     public Integer getProfileid() {
         return profileid;
     }
@@ -169,15 +166,9 @@ public class Profile implements Serializable {
         return true;
     }
 
-    
-//    @Override
-//    public String toString() {
-//        return "project.model.Profile[ profileid=" + profileid + " ]";
-//    }
-
     @Override
     public String toString() {
-        return "Profile{" + "profileid=" + profileid + ", fname=" + fname + ", lname=" + lname + ", address=" + address + ", tel=" + tel + ", accountid=" + accountid + '}';
+        return "model.Profile[ profileid=" + profileid + " ]";
     }
-    
+
 }

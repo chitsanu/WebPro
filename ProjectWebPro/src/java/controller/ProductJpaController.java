@@ -5,10 +5,6 @@
  */
 package controller;
 
-import model.controller.exceptions.IllegalOrphanException;
-import model.controller.exceptions.NonexistentEntityException;
-import model.controller.exceptions.PreexistingEntityException;
-import model.controller.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -21,10 +17,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
 import model.Product;
+import controller.exceptions.IllegalOrphanException;
+import controller.exceptions.NonexistentEntityException;
+import controller.exceptions.PreexistingEntityException;
+import controller.exceptions.RollbackFailureException;
 
 /**
  *
- * @author James
+ * @author SSirith
  */
 public class ProductJpaController implements Serializable {
 
@@ -49,7 +49,7 @@ public class ProductJpaController implements Serializable {
             em = getEntityManager();
             List<Orderdetail> attachedOrderdetailList = new ArrayList<Orderdetail>();
             for (Orderdetail orderdetailListOrderdetailToAttach : product.getOrderdetailList()) {
-                orderdetailListOrderdetailToAttach = em.getReference(orderdetailListOrderdetailToAttach.getClass(), orderdetailListOrderdetailToAttach.getOrdernumber());
+                orderdetailListOrderdetailToAttach = em.getReference(orderdetailListOrderdetailToAttach.getClass(), orderdetailListOrderdetailToAttach.getNoOrder());
                 attachedOrderdetailList.add(orderdetailListOrderdetailToAttach);
             }
             product.setOrderdetailList(attachedOrderdetailList);
@@ -103,7 +103,7 @@ public class ProductJpaController implements Serializable {
             }
             List<Orderdetail> attachedOrderdetailListNew = new ArrayList<Orderdetail>();
             for (Orderdetail orderdetailListNewOrderdetailToAttach : orderdetailListNew) {
-                orderdetailListNewOrderdetailToAttach = em.getReference(orderdetailListNewOrderdetailToAttach.getClass(), orderdetailListNewOrderdetailToAttach.getOrdernumber());
+                orderdetailListNewOrderdetailToAttach = em.getReference(orderdetailListNewOrderdetailToAttach.getClass(), orderdetailListNewOrderdetailToAttach.getNoOrder());
                 attachedOrderdetailListNew.add(orderdetailListNewOrderdetailToAttach);
             }
             orderdetailListNew = attachedOrderdetailListNew;
@@ -211,14 +211,15 @@ public class ProductJpaController implements Serializable {
             return em.find(Product.class, id);
         } finally {
             em.close();
-        }  
+        }
     }
+
     public List<Product> findByProductname(String ProdName) {
         EntityManager em = getEntityManager();
         try {
             Query q = em.createNamedQuery("Product.findByProductname");
-            q.setParameter("productname", "%"+ProdName+"%");
-            return   q.getResultList();
+            q.setParameter("productname", "%" + ProdName + "%");
+            return q.getResultList();
         } finally {
             em.close();
         }
@@ -236,5 +237,5 @@ public class ProductJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

@@ -21,8 +21,10 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import model.Account;
 import model.Profile;
-import model.controller.AccountJpaController;
-import model.controller.exceptions.RollbackFailureException;
+import controller.AccountJpaController;
+import controller.CardJpaController;
+import controller.exceptions.RollbackFailureException;
+import model.Card;
 
 /**
  *
@@ -48,15 +50,21 @@ public class EditProfileServlet extends HttpServlet {
         
         Account account = (Account) request.getAttribute("account");
         Profile profile=(Profile) session.getAttribute("profile");
+        Card card = (Card) session.getAttribute("card");
         
         String Fname= request.getParameter("fname");
         String Lname=request.getParameter("lname");
         String Address=request.getParameter("address");
         String tel=request.getParameter("tel");
+        String cardNumStr = request.getParameter("card");
+        String exp = request.getParameter("exp");
+        String cvc = request.getParameter("cvc");
+        int cardNum = Integer.valueOf(cardNumStr);
         
-        AccountJpaController accJpa=new AccountJpaController(utx, emf);
+        AccountJpaController accCtrl=new AccountJpaController(utx, emf);
         ProfileJpaController pfCtrl = new ProfileJpaController(utx, emf);
-        
+        CardJpaController cardCtrl = new CardJpaController(utx, emf);
+         
         profile.setFname(Fname);
         profile.setLname(Lname);
         profile.setAddress(Address);
@@ -64,8 +72,16 @@ public class EditProfileServlet extends HttpServlet {
         System.out.println("=============================================");
         System.out.println(profile.toString());
         System.out.println("=============================================");
+//        card.setAccountid(accCtrl.findAccount(account.getAccountid()));
+        card.setCardnumber(cardNum);
+        card.setExp(exp);
+        card.setCvc(cvc);
+        System.out.println(card.toString());
+//        cardCtrl.create(card);
         pfCtrl.edit(profile);
+        cardCtrl.edit(card);
         session.setAttribute("profile", profile);
+        session.setAttribute("card", card);
         response.sendRedirect("HomePage.jsp");
     }
  

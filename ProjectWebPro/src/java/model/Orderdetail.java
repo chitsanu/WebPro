@@ -9,42 +9,43 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author James
+ * @author SSirith
  */
 @Entity
 @Table(name = "ORDERDETAIL")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Orderdetail.findAll", query = "SELECT o FROM Orderdetail o")
-    , @NamedQuery(name = "Orderdetail.findByOrdernumber", query = "SELECT o FROM Orderdetail o WHERE o.ordernumber = :ordernumber")
+    , @NamedQuery(name = "Orderdetail.findByNoOrder", query = "SELECT o FROM Orderdetail o WHERE o.noOrder = :noOrder")
     , @NamedQuery(name = "Orderdetail.findByQuantity", query = "SELECT o FROM Orderdetail o WHERE o.quantity = :quantity")})
 public class Orderdetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "ORDERNUMBER")
-    private Integer ordernumber;
+    @Column(name = "NO_ORDER")
+    private Integer noOrder;
     @Basic(optional = false)
     @NotNull
     @Column(name = "QUANTITY")
     private int quantity;
-    @JoinColumn(name = "ORDERNUMBER", referencedColumnName = "ORDERNUMBER", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Orderlist orderlist;
+    @JoinColumn(name = "ORDERNUMBER", referencedColumnName = "ORDERNUMBER")
+    @ManyToOne(optional = false)
+    private Orderlist ordernumber;
     @JoinColumn(name = "PRODUCTCODE", referencedColumnName = "PRODUCTCODE")
     @ManyToOne(optional = false)
     private Product productcode;
@@ -52,21 +53,21 @@ public class Orderdetail implements Serializable {
     public Orderdetail() {
     }
 
-    public Orderdetail(Integer ordernumber) {
-        this.ordernumber = ordernumber;
+    public Orderdetail(Integer noOrder) {
+        this.noOrder = noOrder;
     }
 
-    public Orderdetail(Integer ordernumber, int quantity) {
-        this.ordernumber = ordernumber;
+    public Orderdetail(Integer noOrder, int quantity) {
+        this.noOrder = noOrder;
         this.quantity = quantity;
     }
 
-    public Integer getOrdernumber() {
-        return ordernumber;
+    public Integer getNoOrder() {
+        return noOrder;
     }
 
-    public void setOrdernumber(Integer ordernumber) {
-        this.ordernumber = ordernumber;
+    public void setNoOrder(Integer noOrder) {
+        this.noOrder = noOrder;
     }
 
     public int getQuantity() {
@@ -77,12 +78,12 @@ public class Orderdetail implements Serializable {
         this.quantity = quantity;
     }
 
-    public Orderlist getOrderlist() {
-        return orderlist;
+    public Orderlist getOrdernumber() {
+        return ordernumber;
     }
 
-    public void setOrderlist(Orderlist orderlist) {
-        this.orderlist = orderlist;
+    public void setOrdernumber(Orderlist ordernumber) {
+        this.ordernumber = ordernumber;
     }
 
     public Product getProductcode() {
@@ -96,7 +97,7 @@ public class Orderdetail implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ordernumber != null ? ordernumber.hashCode() : 0);
+        hash += (noOrder != null ? noOrder.hashCode() : 0);
         return hash;
     }
 
@@ -107,7 +108,7 @@ public class Orderdetail implements Serializable {
             return false;
         }
         Orderdetail other = (Orderdetail) object;
-        if ((this.ordernumber == null && other.ordernumber != null) || (this.ordernumber != null && !this.ordernumber.equals(other.ordernumber))) {
+        if ((this.noOrder == null && other.noOrder != null) || (this.noOrder != null && !this.noOrder.equals(other.noOrder))) {
             return false;
         }
         return true;
@@ -116,12 +117,12 @@ public class Orderdetail implements Serializable {
     
 //    @Override
 //    public String toString() {
-//        return "model.Orderdetail[ ordernumber=" + ordernumber + " ]";
+//        return "model.Orderdetail[ noOrder=" + noOrder + " ]";
 //    }
 
     @Override
     public String toString() {
-        return "Orderdetail{" + "ordernumber=" + ordernumber + ", quantity=" + quantity + ", orderlist=" + orderlist + ", productcode=" + productcode + '}';
+        return "Orderdetail{" + "noOrder=" + noOrder + ", quantity=" + quantity + ", ordernumber=" + ordernumber + ", productcode=" + productcode + '}';
     }
     
 }

@@ -6,7 +6,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,15 +17,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author James
+ * @author SSirith
  */
 @Entity
 @Table(name = "CARD")
@@ -34,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Card.findAll", query = "SELECT c FROM Card c")
     , @NamedQuery(name = "Card.findByCardid", query = "SELECT c FROM Card c WHERE c.cardid = :cardid")
+    , @NamedQuery(name = "Card.findByAccountid", query = "SELECT c FROM Card c WHERE c.accountid = :accountid")
     , @NamedQuery(name = "Card.findByCardnumber", query = "SELECT c FROM Card c WHERE c.cardnumber = :cardnumber")
     , @NamedQuery(name = "Card.findByExp", query = "SELECT c FROM Card c WHERE c.exp = :exp")
     , @NamedQuery(name = "Card.findByCvc", query = "SELECT c FROM Card c WHERE c.cvc = :cvc")})
@@ -51,9 +49,9 @@ public class Card implements Serializable {
     private int cardnumber;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "EXP")
-    @Temporal(TemporalType.DATE)
-    private Date exp;
+    private String exp;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -70,7 +68,14 @@ public class Card implements Serializable {
         this.cardid = cardid;
     }
 
-    public Card(Integer cardid, int cardnumber, Date exp, String cvc) {
+    public Card(int cardnumber, String exp, String cvc) {
+        this.cardnumber = cardnumber;
+        this.exp = exp;
+        this.cvc = cvc;
+    }
+
+    
+    public Card(Integer cardid, int cardnumber, String exp, String cvc) {
         this.cardid = cardid;
         this.cardnumber = cardnumber;
         this.exp = exp;
@@ -93,11 +98,11 @@ public class Card implements Serializable {
         this.cardnumber = cardnumber;
     }
 
-    public Date getExp() {
+    public String getExp() {
         return exp;
     }
 
-    public void setExp(Date exp) {
+    public void setExp(String exp) {
         this.exp = exp;
     }
 
@@ -137,9 +142,15 @@ public class Card implements Serializable {
         return true;
     }
 
+    
+//    @Override
+//    public String toString() {
+//        return "model.Card[ cardid=" + cardid + " ]";
+//    }
+
     @Override
     public String toString() {
-        return "model.Card[ cardid=" + cardid + " ]";
+        return "Card{" + "cardid=" + cardid + ", cardnumber=" + cardnumber + ", exp=" + exp + ", cvc=" + cvc + ", accountid=" + accountid + '}';
     }
     
 }
