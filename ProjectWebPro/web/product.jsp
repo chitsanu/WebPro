@@ -82,7 +82,7 @@
                             <div class="product">
 
                                 <p>${p.productname}</p> <br>
-                                <p>Price: ${p.productprice} Baht</p><br>
+                                <p style="color: #79BD9A">${p.productprice} Baht</p><br>
 
 
                             </div>
